@@ -83,27 +83,31 @@ External Integrations
 - Logout functionality works
 - Error handling for auth failures
 
-#### Ticket 1.3: UI Component Library Setup
+#### Ticket 1.3: FruteroKit Design System & UI Component Setup
 - **Priority**: High
-- **Estimated**: 3 hours
-- **Description**: Install and configure shadcn/ui component library
+- **Estimated**: 4 hours
+- **Description**: Implement FruteroKit design system with shadcn/ui integration
 
 **Tasks**:
-- Install shadcn/ui CLI
-- Configure with existing Tailwind setup
-- Add essential components:
+- ✅ Implement FruteroKit OKLCH color system in globals.css
+- ✅ Configure custom typography (Funnel Display, Space Grotesk, Raleway, Ledger)
+- ✅ Set up CSS architecture with page/container/section patterns
+- ✅ Update Tailwind config with FruteroKit font families
+- Install shadcn/ui components:
   - Button, Card, Dialog, Form
   - Input, Select, Textarea
   - Toast, Alert, Badge
   - Tabs, Accordion
-- Update theme to match Farcaster purple design
-- Create component showcase page
+- Create component showcase demonstrating FruteroKit patterns
+- Implement layout structure following FruteroKit guidelines
 
 **Acceptance Criteria**:
-- shadcn/ui installed and configured
-- All listed components added
-- Theme matches Farcaster branding
-- Components work in MiniKit environment
+- ✅ FruteroKit color system (OKLCH) fully implemented
+- ✅ Custom fonts configured with fallbacks
+- ✅ CSS architecture with proper responsive patterns
+- shadcn/ui components work with FruteroKit theme
+- Components follow FruteroKit design patterns
+- Application builds successfully with complete theme
 
 #### Ticket 1.4: State Management Setup
 - **Priority**: Medium
