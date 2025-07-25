@@ -14,6 +14,7 @@ import {
   AISection,
   HowItWorksSection,
   FAQSection,
+  ProofOfVeranoSection,
   FinalCTASection,
   Footer,
 } from './LandingComponents';
@@ -84,6 +85,15 @@ export function FrameAwareLanding() {
                   Explore Projects
                 </button>
               </div>
+              
+              <div className="flex justify-center mb-8">
+                <a 
+                  href="/verano" 
+                  className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg bg-gradient-to-r from-orange-500 to-yellow-500 text-white hover:from-orange-600 hover:to-yellow-600 transition-all duration-200 shadow-lg hover:shadow-xl"
+                >
+                  🌞 Proof of Verano - Bootcamp Web3
+                </a>
+              </div>
 
               <div className="flex justify-center gap-8 text-center mb-8">
                 <div>
@@ -117,6 +127,16 @@ export function FrameAwareLanding() {
               </h2>
               
               <div className="grid gap-4">
+                <a href="/verano" className="block">
+                  <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-orange-100 to-yellow-100 rounded-lg border-2 border-orange-300 hover:border-orange-400 transition-all hover:shadow-lg">
+                    <div className="text-2xl">🌞</div>
+                    <div>
+                      <h3 className="font-semibold text-orange-800">NEW: Proof of Verano Bootcamp</h3>
+                      <p className="text-sm text-orange-700">Learn Web3 & earn your NFT certificate</p>
+                    </div>
+                  </div>
+                </a>
+                
                 <div className="flex items-center gap-3 p-4 bg-[var(--app-card-bg)] rounded-lg border border-[var(--app-card-border)]">
                   <div className="text-2xl">👥</div>
                   <div>
@@ -208,6 +228,7 @@ export function FrameAwareLanding() {
         <main>
           <HeroSection />
           <BenefitsSection />
+          <ProofOfVeranoSection />
           <MarketplaceSection />
           <AISection />
           <HowItWorksSection />
