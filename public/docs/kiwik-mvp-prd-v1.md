@@ -189,7 +189,8 @@ María is a talented developer from Mexico City with 500 Farcaster followers who
 ### 8.3 Scalability & performance
 
 - Next.js 15+ App Router with static generation and server-side rendering
-- TailwindCSS with shadcn/ui for consistent, performant component library
+- **FruteroKit Design System**: Complete UI system with OKLCH color palette, custom typography (Funnel Display, Space Grotesk, Raleway, Ledger), and component patterns
+- TailwindCSS with shadcn/ui integrated with FruteroKit design tokens and brand guidelines
 - Zustand + React Query for optimized state management and data fetching
 - Redis caching layer for database query optimization and real-time features
 - Vercel deployment with edge computing and global CDN integration
@@ -208,8 +209,10 @@ María is a talented developer from Mexico City with 500 Farcaster followers who
 **Frontend Stack**
 
 - **Framework**: Next.js 15+ (App Router)
-- **UI Components**: shadcn/ui (reusable component library)
-- **Styling**: TailwindCSS
+- **Design System**: FruteroKit UI Design Guidelines with OKLCH color system and custom typography
+- **UI Components**: shadcn/ui (integrated with FruteroKit design tokens)
+- **Styling**: TailwindCSS + FruteroKit CSS architecture (page/container/section patterns)
+- **Typography**: Funnel Display (titles), Space Grotesk (UI), Raleway (body), Ledger (special elements)
 - **Language**: TypeScript
 - **State Management**: Zustand + React Query
 
