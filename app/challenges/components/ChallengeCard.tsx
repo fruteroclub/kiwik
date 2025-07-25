@@ -34,13 +34,13 @@ const levelColors = {
   [ChallengeLevel.EXPERT]: 'bg-red-100 text-red-700',
 };
 
-export function ChallengeCard({ challenge, builderProfile, onAction }: ChallengeCardProps) {
+export function ChallengeCard({ challenge, onAction }: ChallengeCardProps) {
   const [isActionLoading, setIsActionLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
   // Check if user is already participating
-  const participantStatus = 'not_registered'; // TODO: Get from builderProfile
-  const hasSpots = !challenge.maxParticipants || (challenge.maxParticipants > 0); // TODO: Get actual count
+  const participantStatus: ParticipantStatus | 'not_registered' = 'not_registered'; // TODO: Get from builderProfile
+  const hasSpots = !challenge.spotsAvailable || (challenge.spotsAvailable > 0);
   const isEligible = true; // TODO: Check prerequisites
 
   const handleAction = async (action: 'register' | 'commit') => {
@@ -77,52 +77,53 @@ export function ChallengeCard({ challenge, builderProfile, onAction }: Challenge
       );
     }
 
-    switch (participantStatus) {
-      case 'not_registered':
-        return (
-          <button
-            onClick={() => handleAction('register')}
-            disabled={isActionLoading}
-            className="w-full py-3 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isActionLoading ? 'Registering...' : 'Register Interest'}
-          </button>
-        );
-      
-      case 'applied':
-        return (
-          <button
-            onClick={() => handleAction('commit')}
-            disabled={isActionLoading}
-            className="w-full py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isActionLoading ? 'Committing...' : 'Commit & Get NFT'}
-          </button>
-        );
-      
-      case 'committed':
-        return (
-          <button
-            disabled
-            className="w-full py-3 px-4 bg-yellow-100 text-yellow-800 rounded-lg border border-yellow-200"
-          >
-            ⏳ Challenge in Progress
-          </button>
-        );
-      
-      case 'completed':
-        return (
-          <button
-            disabled
-            className="w-full py-3 px-4 bg-green-100 text-green-800 rounded-lg border border-green-200"
-          >
-            ✅ Challenge Completed
-          </button>
-        );
-      
-      default:
-        return null;
+    if (participantStatus === 'not_registered') {
+      return (
+        <button
+          onClick={() => handleAction('register')}
+          disabled={isActionLoading}
+          className="w-full py-3 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {isActionLoading ? 'Registering...' : 'Register Interest'}
+        </button>
+      );
     }
+    
+    if (participantStatus === ParticipantStatus.APPLIED) {
+      return (
+        <button
+          onClick={() => handleAction('commit')}
+          disabled={isActionLoading}
+          className="w-full py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {isActionLoading ? 'Committing...' : 'Commit & Get NFT'}
+        </button>
+      );
+    }
+    
+    if (participantStatus === ParticipantStatus.IN_PROGRESS) {
+      return (
+        <button
+          disabled
+          className="w-full py-3 px-4 bg-yellow-100 text-yellow-800 rounded-lg border border-yellow-200"
+        >
+          ⏳ Challenge in Progress
+        </button>
+      );
+    }
+    
+    if (participantStatus === ParticipantStatus.COMPLETED) {
+      return (
+        <button
+          disabled
+          className="w-full py-3 px-4 bg-green-100 text-green-800 rounded-lg border border-green-200"
+        >
+          ✅ Challenge Completed
+        </button>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -158,7 +159,7 @@ export function ChallengeCard({ challenge, builderProfile, onAction }: Challenge
           <div className="flex items-center gap-2">
             <span className="text-gray-400">👥</span>
             <span className="text-gray-600">
-              {challenge.maxParticipants ? `${challenge.maxParticipants} spots` : 'Unlimited'}
+              {challenge.spotsAvailable ? `${challenge.spotsAvailable}/${challenge.totalSpots || challenge.maxParticipants} spots` : 'Unlimited'}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -174,7 +175,7 @@ export function ChallengeCard({ challenge, builderProfile, onAction }: Challenge
         {/* Skills */}
         {challenge.skillsGained.length > 0 && (
           <div className="mb-4">
-            <p className="text-xs font-medium text-gray-500 mb-2">Skills You'll Gain:</p>
+            <p className="text-xs font-medium text-gray-500 mb-2">Skills You&apos;ll Gain:</p>
             <div className="flex flex-wrap gap-1">
               {challenge.skillsGained.slice(0, 3).map((skill) => (
                 <span

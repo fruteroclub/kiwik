@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
 import { RegistrationForm } from './components/RegistrationForm';
 import { StudentDashboard } from './components/StudentDashboard';
-import { NFTDisplay } from './components/NFTDisplay';
+// import { NFTDisplay } from './components/NFTDisplay';
 import { AdminPanel } from './components/AdminPanel';
 
 export default function VeranoBootcampPage() {
@@ -50,7 +50,7 @@ export default function VeranoBootcampPage() {
                     Mi Dashboard
                   </button>
                 )}
-                {isOwner && (
+                {Boolean(isOwner) && (
                   <button
                     onClick={() => setActiveTab('admin')}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -186,7 +186,7 @@ export default function VeranoBootcampPage() {
           <StudentDashboard />
         )}
 
-        {activeTab === 'admin' && isOwner && (
+        {activeTab === 'admin' && Boolean(isOwner) && (
           <AdminPanel />
         )}
       </main>
