@@ -1,4 +1,5 @@
 import prisma from './prisma'
+import type { Prisma } from './generated/prisma'
 
 // User operations
 export const userService = {
@@ -127,7 +128,7 @@ export const weeklyService = {
     projectId: string
     userId: string
     weekStartDate: Date
-    goals: any[] // JSON array of goals
+    goals: Prisma.InputJsonValue // JSON array of goals
   }) {
     return prisma.weeklyGoal.create({
       data,
@@ -141,7 +142,7 @@ export const weeklyService = {
     weekStartDate?: Date
     wins?: string
     challenges?: string
-    metrics?: any
+    metrics?: Prisma.InputJsonValue
     nextWeekPreview?: string
     mediaUrls?: string[]
     farcasterCastId?: string
@@ -174,7 +175,7 @@ export const engagementService = {
     targetType: 'PROJECT' | 'UPDATE' | 'COMMENT' | 'USER'
     targetId: string
     actionType: 'LIKE' | 'COMMENT' | 'SHARE' | 'FOLLOW' | 'UNFOLLOW' | 'REACT'
-    metadata?: any
+    metadata?: Prisma.InputJsonValue
   }) {
     return prisma.engagement.create({
       data,

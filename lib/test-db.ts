@@ -56,14 +56,14 @@ async function testDatabaseConnection() {
       console.log('✅ All database operations working correctly!')
       
     } catch (error) {
-      console.log('⚠️  Database operation failed:', error.message)
+      console.log('⚠️  Database operation failed:', error instanceof Error ? error.message : String(error))
     }
     
     await testPrisma.$disconnect()
     console.log('✅ Database disconnected successfully')
     
   } catch (error) {
-    console.error('❌ Database connection failed:', error.message)
+    console.error('❌ Database connection failed:', error instanceof Error ? error.message : String(error))
     process.exit(1)
   }
 }
