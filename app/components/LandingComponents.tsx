@@ -106,13 +106,19 @@ export function HeroSection() {
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
               <Button size="lg" className="px-8 py-4 text-lg">
                 Start Building
               </Button>
               <Button variant="outline" size="lg" className="px-8 py-4 text-lg">
                 Explore Projects
               </Button>
+              <a 
+                href="/verano" 
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-lg bg-gradient-to-r from-orange-500 to-yellow-500 text-white border-2 border-orange-500 hover:from-orange-600 hover:to-yellow-600 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                🌞 Proof of Verano
+              </a>
             </div>
 
             <div className="flex items-center gap-6 pt-8 border-t border-[var(--app-card-border)]">
@@ -525,6 +531,61 @@ export function FAQSection() {
 }
 
 // Final CTA Section Component
+// Proof of Verano Section
+export function ProofOfVeranoSection() {
+  return (
+    <section className="py-20 px-4 bg-gradient-to-br from-orange-50 to-yellow-50">
+      <div className="container mx-auto max-w-7xl">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+          <div className="grid lg:grid-cols-2">
+            <div className="p-12 flex flex-col justify-center">
+              <div className="inline-flex items-center gap-2 text-orange-600 font-semibold mb-4">
+                <span className="text-2xl">🌞</span>
+                <span>NUEVO BOOTCAMP</span>
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+                Proof of Verano En Cadena
+              </h2>
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                Aprende Web3 este verano y obtén tu certificación NFT on-chain. 
+                Un bootcamp intensivo de 4 semanas donde dominarás smart contracts, 
+                DApps y todo el ecosistema blockchain.
+              </p>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center gap-3">
+                  <span className="text-orange-500">✓</span>
+                  <span className="text-gray-700">Certificación NFT única en Base</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-orange-500">✓</span>
+                  <span className="text-gray-700">Aprendizaje práctico y mentorías</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-orange-500">✓</span>
+                  <span className="text-gray-700">Comunidad exclusiva de graduados</span>
+                </div>
+              </div>
+              <a 
+                href="/verano" 
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-white hover:from-orange-600 hover:to-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl w-fit"
+              >
+                Inscríbete Ahora →
+              </a>
+            </div>
+            <div className="bg-gradient-to-br from-orange-400 to-yellow-400 p-12 flex items-center justify-center">
+              <div className="text-center text-white">
+                <div className="text-9xl mb-4">🏆</div>
+                <h3 className="text-2xl font-bold mb-2">NFT Certificado</h3>
+                <p className="text-orange-100">Tu logro on-chain para siempre</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function FinalCTASection() {
   return (
     <section className="py-20 px-4 bg-gradient-to-br from-[var(--app-background)] via-[var(--app-accent-light)] to-[var(--app-background)]">
@@ -576,6 +637,9 @@ export function NavigationHeader() {
             </a>
             <a href="#how-it-works" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors">
               How It Works
+            </a>
+            <a href="/verano" className="text-orange-500 hover:text-orange-600 transition-colors font-medium">
+              🌞 Bootcamp
             </a>
             <a href="#about" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors">
               About
