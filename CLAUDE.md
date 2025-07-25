@@ -37,12 +37,47 @@ bun run lint         # Run ESLint
 /app                 # Next.js App Router
   /api              # API routes (notifications, webhooks)
   /components       # React components (DemoComponents.tsx)
+  /verano           # Proof of Verano bootcamp app
   layout.tsx        # Root layout with metadata generation
   page.tsx          # Main landing page
   providers.tsx     # MiniKitProvider wrapper
 /lib                # Utilities (Redis, notifications)
-/public/docs        # Documentation files (PRDs, context)
+  /contracts        # Smart contract ABIs and deployment info
+  /hooks            # Custom React hooks (wagmi integrations)
+/public/docs        # Project documentation and operations center (see below)
+/docs               # Development documentation (deployment guides, plans)
 ```
+
+### Documentation Structure (/public/docs)
+
+The `/public/docs` directory serves as the project's documentation and operations center:
+
+```
+/public/docs/
+  PROJECT-CONFIG.md              # Main project configuration
+  kiwik-mvp-prd-v1.md           # Product Requirements Document
+  farcaster-mini-apps.md        # Farcaster integration docs
+  frutero-club-context.md       # Project context and background
+  
+  /guidelines/                   # Development guidelines and standards
+    component-architecture-guidelines.md
+    fruterokit-layout-structure.md
+    fruterokit-ui-design-guidelines.md
+    kiwik-component-development-rules.md
+    
+  /implementation-plans/         # Technical implementation plans
+    2025-07-24-implementation-plan-mvp-prd-v1.md
+    proof-of-verano-mvp-plan.md
+    
+  /references/                   # Technical references
+    proof-of-verano-deployment.md
+    
+  /todos/                        # Task tracking and project management
+    feat-*.md                    # Active feature tasks
+    /done/                       # Completed tasks archive
+```
+
+**Important**: Always check `/public/docs/PROJECT-CONFIG.md` for the latest project configuration and guidelines. This is the source of truth for project standards and conventions.
 
 ### Key Architectural Patterns
 
@@ -96,6 +131,13 @@ Components should be added to the existing `DemoComponents.tsx` or create new fi
 - Use OnchainKit components for wallet connections
 - Wagmi hooks for contract interactions
 - All blockchain interactions are on Base network
+
+### Proof of Verano Integration
+The project includes a Web3 bootcamp certification system:
+- Smart contract deployed on Base Sepolia: `0xc50dc3d7a967393a4ebf7944b0c6c819d10aa250`
+- Full UI at `/verano` route with registration, dashboard, and admin panel
+- Custom hook `useProofOfVerano` for contract interactions
+- NFT certificate minting for graduates
 
 ### Testing Considerations
 No test framework is currently set up. Consider adding Vitest or Jest for unit tests.
