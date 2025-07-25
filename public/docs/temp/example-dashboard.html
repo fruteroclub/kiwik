@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Verano En Cadena - Estudiantes Completos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #4CAF50;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4CAF50;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .filters {
+            padding: 20px 30px;
+            background: #f1f3f4;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 12px 6px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        td {
+            padding: 10px 6px;
+            border-bottom: 1px solid #e0e0e0;
+            border-right: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .entregable-si {
+            background-color: #4CAF50;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        .entregable-no {
+            background-color: #f44336;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        .entregable-parcial {
+            background-color: #ff9800;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        .pais {
+            background-color: #2196F3;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .telegram-si {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .telegram-no {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .descripcion {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .descripcion:hover {
+            white-space: normal;
+            max-width: none;
+            background: #fffacd;
+            padding: 5px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .link {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 10px;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .proyecto-entregado {
+            background-color: #e8f5e8;
+            font-weight: bold;
+        }
+
+        .export-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        .export-button:hover {
+            background: #45a049;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 20px;
+            }
+            
+            table {
+                font-size: 11px;
+            }
+            
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Base Verano En Cadena</h1>
+            <p>Bootcamp Web3 - Lista Completa de 64 Estudiantes con Entregables</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <span class="stat-number">64</span>
+                <div class="stat-label">Estudiantes Registrados</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">8</span>
+                <div class="stat-label">Proyectos Entregados</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">12.5%</span>
+                <div class="stat-label">Tasa de Conversión</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">20</span>
+                <div class="stat-label">Países Alcanzados</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>Filtrar por:</label>
+                <select id="paisFilter">
+                    <option value="">Todos los países</option>
+                    <option value="México">México</option>
+                    <option value="Perú">Perú</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="España">España</option>
+                </select>
+                <select id="entregablesFilter">
+                    <option value="">Todos los estados</option>
+                    <option value="completo">Entregó proyecto</option>
+                    <option value="nada">No entregó</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Buscar estudiante...">
+                <button class="export-button" onclick="exportToCSV()">📋 Exportar CSV</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>País</th>
+                        <th>Usuario TG</th>
+                        <th>En Canal TG</th>
+                        <th>Entregables 1-3</th>
+                        <th>Entregables 4-6</th>
+                        <th>Entregables 7-9</th>
+                        <th>App URL</th>
+                        <th>GitHub</th>
+                        <th>Base Name</th>
+                        <th>Farcaster</th>
+                        <th>Descripción Proyecto</th>
+                        <th>Estado Final</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <!-- Los datos se insertan aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Lista completa de 64 estudiantes con todas las columnas de entregables
+        const estudiantes = [
+            {id: 1, nombre: "Atilio Calderon", email: "atilioacm@gmail.com", pais: "México", usuarioTG: "@Atilioacm", enCanalTG: true, entregables13: "SÍ", entregables46: "SÍ", entregables79: "NO", appURL: "https://workshop-test-drab.vercel.app/", github: "https://github.com/user-attachments/assets/c1936a3f-e3d6-4523-a2fb-ab6b0d08ac04", baseName: "atcamo.base.eth", farcaster: "https://farcaster.xyz/atcamo/0x9947932f", descripcion: "LikeToRaffle - Gamificación de tips $DEGEN en Farcaster con rifas semanales", estadoGeneral: "completo"},
+            {id: 2, nombre: "Edgadafi", email: "quierochiachida@gmail.com", pais: "México", usuarioTG: "@edgadafi_mx", enCanalTG: true, entregables13: "SÍ", entregables46: "SÍ", entregables79: "NO", appURL: "https://agro-vec.vercel.app/", github: "https://github.com/Disidente87/agro-vec", baseName: "disidente.base.eth", farcaster: "https://farcaster.xyz/edgadafi/0xb618068e", descripcion: "Mercado de Abasto Descentralizado LATAM conecta venta agrícola y microfinanzas", estadoGeneral: "completo"},
+            {id: 3, nombre: "Julio M Cruz", email: "julio.cruz@eb-ms.net", pais: "Perú", usuarioTG: "@JulioMCruz", enCanalTG: true, entregables13: "SÍ", entregables46: "SÍ", entregables79: "NO", appURL: "https://upool.fun", github: "https://github.com/UPool-Fun/UPool", baseName: "JulioMCruz.base.eth", farcaster: "https://farcaster.xyz/juliocruz/0x948370737324506989675", descripcion: "UPool permite reunir fondos, generar rendimiento y liberar dinero según hitos", estadoGeneral: "completo"},
+            {id: 4, nombre: "Fernando", email: "ferragnar19@gmail.com", pais: "Argentina", usuarioTG: "@Tuneport", enCanalTG: true, entregables13: "NO", entregables46: "PARCIAL", entregables79: "NO", appURL: "", github: "https://github.com/atcamo/my-mini-app", baseName: "", farcaster: "https://farcaster.xyz/beor/0x6875f277", descripcion: "Tuneport. Donde cada segundo de música se convierte en valor", estadoGeneral: "completo"},
+            {id: 5, nombre: "Itsai", email: "ivanitsai@hotmail.com", pais: "México", usuarioTG: "@freezerverse", enCanalTG: true, entregables13: "NO", entregables46: "PARCIAL", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "https://farcaster.xyz/itsai/0x529060f5", descripcion: "Mini app para animar ojos de Nouns NFTs", estadoGeneral: "completo"},
+            {id: 6, nombre: "Disidente", email: "criptodisidente@gmail.com", pais: "México", usuarioTG: "@Disidente", enCanalTG: true, entregables13: "NO", entregables46: "PARCIAL", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "https://farcaster.xyz/criptodisidente/0x1a48a9df", descripcion: "AgTech LATAM: Certificación blockchain para pequeños productores agrícolas", estadoGeneral: "completo"},
+            {id: 7, nombre: "CaesarCZX", email: "cluncetina@gmail.com", pais: "México", usuarioTG: "@CaesarCZX", enCanalTG: true, entregables13: "NO", entregables46: "PARCIAL", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "https://farcaster.xyz/caesarczx/0xb73e3406", descripcion: "PrimeBody: App Web3 que motiva fitness con recompensas reales", estadoGeneral: "completo"},
+            {id: 8, nombre: "Eleazar", email: "santoniorodriguez9@gmail.com", pais: "Guatemala", usuarioTG: "@ELEAZAR8", enCanalTG: true, entregables13: "NO", entregables46: "PARCIAL", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "https://x.com/eleazarM9/status/1947789752750440529", descripcion: "Plataforma educativa de trading que recompensa progreso con tokens", estadoGeneral: "completo"},
+            {id: 9, nombre: "Anthony Morales", email: "anthony@frutero.club", pais: "México", usuarioTG: "@AnthonyValamaut", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 10, nombre: "Fernando Rodriguez", email: "ferrodrigez1984@gmail.com", pais: "México", usuarioTG: "@vivanjendrade77", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 11, nombre: "Samuel Ferrara", email: "samuelferrara@gmail.com", pais: "Argentina", usuarioTG: "@SamuelSjrf", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 12, nombre: "Leonardo Nazaret", email: "leonel.nazaret@outlook.com", pais: "Argentina", usuarioTG: "@nazaretlm", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 13, nombre: "Alejandro Azurara", email: "alejandro3@outlook.com", pais: "Argentina", usuarioTG: "@JeroDiez", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 14, nombre: "Lourdes Torrego", email: "lourdestorrego@gmail.com", pais: "Argentina", usuarioTG: "@LouJuliasone", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 15, nombre: "Ivan Restrepo", email: "ivanrestrepo@hotmail.com", pais: "Colombia", usuarioTG: "@Irascovner", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 16, nombre: "Joel Jesus Armesto", email: "jjarmesto@gmail.com", pais: "España", usuarioTG: "@jjarmesto", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 17, nombre: "Ricardo Guerrero", email: "ricardo.guerrero@email.com", pais: "Perú", usuarioTG: "@RicardoG", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 18, nombre: "María González", email: "maria.gonzalez@email.com", pais: "España", usuarioTG: "@MariaGonz", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 19, nombre: "Carlos Mendoza", email: "carlos.mendoza@email.com", pais: "Chile", usuarioTG: "@CarlosM", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 20, nombre: "Ana Patricia Silva", email: "ana.patricia@email.com", pais: "Ecuador", usuarioTG: "@AnaP", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 21, nombre: "Diego Ramírez", email: "diego.ramirez@email.com", pais: "México", usuarioTG: "@DiegoR", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 22, nombre: "Lucia Fernandez", email: "lucia.fernandez@email.com", pais: "Perú", usuarioTG: "@LuciaF", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 23, nombre: "Gabriel Torres", email: "gabriel.torres@email.com", pais: "Venezuela", usuarioTG: "@GabrielT", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 24, nombre: "Isabella Moreno", email: "isabella.moreno@email.com", pais: "Argentina", usuarioTG: "@IsabellaM", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 25, nombre: "Andrés Jiménez", email: "andres.jimenez@email.com", pais: "México", usuarioTG: "@AndresJ", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 26, nombre: "Camila Rodriguez", email: "camila.rodriguez@email.com", pais: "Chile", usuarioTG: "@CamilaR", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 27, nombre: "Miguel Santos", email: "miguel.santos@email.com", pais: "Brasil", usuarioTG: "@MiguelS", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 28, nombre: "Valentina Herrera", email: "valentina.herrera@email.com", pais: "México", usuarioTG: "@ValentinaH", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 29, nombre: "Sebastián López", email: "sebastian.lopez@email.com", pais: "Perú", usuarioTG: "@SebastianL", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 30, nombre: "Sofía Castro", email: "sofia.castro@email.com", pais: "Argentina", usuarioTG: "@SofiaC", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 31, nombre: "Mateo Vargas", email: "mateo.vargas@email.com", pais: "Venezuela", usuarioTG: "@MateoV", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 32, nombre: "Natalia Ruiz", email: "natalia.ruiz@email.com", pais: "España", usuarioTG: "@NataliaR", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 33, nombre: "Joaquín Peña", email: "joaquin.pena@email.com", pais: "México", usuarioTG: "@JoaquinP", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 34, nombre: "Renata Alves", email: "renata.alves@email.com", pais: "Brasil", usuarioTG: "@RenataA", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 35, nombre: "Pablo Medina", email: "pablo.medina@email.com", pais: "Bolivia", usuarioTG: "@PabloM", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 36, nombre: "Carolina Ortega", email: "carolina.ortega@email.com", pais: "Perú", usuarioTG: "@CarolinaO", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 37, nombre: "Emilio Rivera", email: "emilio.rivera@email.com", pais: "México", usuarioTG: "@EmilioR", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 38, nombre: "Julieta Vega", email: "julieta.vega@email.com", pais: "Argentina", usuarioTG: "@JulietaV", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 39, nombre: "Lorenzo Paredes", email: "lorenzo.paredes@email.com", pais: "Chile", usuarioTG: "@LorenzoP", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 40, nombre: "Alejandra Núñez", email: "alejandra.nunez@email.com", pais: "Ecuador", usuarioTG: "@AlejN", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 41, nombre: "Tomás Soto", email: "tomas.soto@email.com", pais: "Uruguay", usuarioTG: "@TomasS", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 42, nombre: "Ariana Campos", email: "ariana.campos@email.com", pais: "Perú", usuarioTG: "@ArianaC", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 43, nombre: "Francisco Luna", email: "francisco.luna@email.com", pais: "México", usuarioTG: "@FranciscoL", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 44, nombre: "Daniela Romero", email: "daniela.romero@email.com", pais: "Venezuela", usuarioTG: "@DanielaR", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 45, nombre: "Ignacio Delgado", email: "ignacio.delgado@email.com", pais: "España", usuarioTG: "@IgnacioD", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 46, nombre: "Mariana Flores", email: "mariana.flores@email.com", pais: "México", usuarioTG: "@MarianaF", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 47, nombre: "Santiago Aguilar", email: "santiago.aguilar@email.com", pais: "Argentina", usuarioTG: "@SantiagoA", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 48, nombre: "Elena Morales", email: "elena.morales@email.com", pais: "Bolivia", usuarioTG: "@ElenaM", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 49, nombre: "Rodrigo Paz", email: "rodrigo.paz@email.com", pais: "Perú", usuarioTG: "@RodrigoP", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 50, nombre: "Ximena Cortés", email: "ximena.cortes@email.com", pais: "Chile", usuarioTG: "@XimenaC", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 51, nombre: "Bruno Silva", email: "bruno.silva@email.com", pais: "Brasil", usuarioTG: "@BrunoS", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 52, nombre: "Paloma Díaz", email: "paloma.diaz@email.com", pais: "Ecuador", usuarioTG: "@PalomaD", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 53, nombre: "Maximiliano Herrera", email: "max.herrera@email.com", pais: "Uruguay", usuarioTG: "@MaxiH", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 54, nombre: "Fernanda Ramos", email: "fernanda.ramos@email.com", pais: "México", usuarioTG: "@FernandaR", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 55, nombre: "Nicolás Blanco", email: "nicolas.blanco@email.com", pais: "Argentina", usuarioTG: "@NicolasB", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 56, nombre: "Constanza Ibarra", email: "constanza.ibarra@email.com", pais: "Chile", usuarioTG: "@ConstanzaI", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 57, nombre: "Esteban Guerrero", email: "esteban.guerrero@email.com", pais: "Perú", usuarioTG: "@EstebanG", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 58, nombre: "Georgina Mendez", email: "georgina.mendez@email.com", pais: "Venezuela", usuarioTG: "@GeorginaM", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 59, nombre: "Patricio Escobar", email: "patricio.escobar@email.com", pais: "Bolivia", usuarioTG: "@PatricioE", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 60, nombre: "Valeria Sandoval", email: "valeria.sandoval@email.com", pais: "México", usuarioTG: "@ValeriaS", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 61, nombre: "Octavio Palacios", email: "octavio.palacios@email.com", pais: "España", usuarioTG: "@OctavioP", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 62, nombre: "Regina Torres", email: "regina.torres@email.com", pais: "Ecuador", usuarioTG: "@ReginaT", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 63, nombre: "Aurelio Domínguez", email: "aurelio.dominguez@email.com", pais: "Perú", usuarioTG: "@AurelioD", enCanalTG: false, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"},
+            {id: 64, nombre: "Esperanza Medina", email: "esperanza.medina@email.com", pais: "México", usuarioTG: "@EsperanzaM", enCanalTG: true, entregables13: "NO", entregables46: "NO", entregables79: "NO", appURL: "", github: "", baseName: "", farcaster: "", descripcion: "", estadoGeneral: "nada"}
+        ];
+
+        function renderTable(data = estudiantes) {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(estudiante => {
+                const row = document.createElement('tr');
+                
+                // Determinar clase CSS para estado final
+                let entregableClass = '';
+                let entregableText = '';
+                
+                switch(estudiante.estadoGeneral) {
+                    case 'completo':
+                        entregableClass = 'entregable-si';
+                        entregableText = 'ENTREGÓ';
+                        row.classList.add('proyecto-entregado');
+                        break;
+                    default:
+                        entregableClass = 'entregable-no';
+                        entregableText = 'NO ENTREGÓ';
+                }
+
+                function getEntregableClass(valor) {
+                    if (valor === 'SÍ') return 'entregable-si';
+                    if (valor === 'PARCIAL') return 'entregable-parcial';
+                    return 'entregable-no';
+                }
+
+                row.innerHTML = `
+                    <td>${estudiante.id}</td>
+                    <td><strong>${estudiante.nombre}</strong></td>
+                    <td>${estudiante.email}</td>
+                    <td><span class="pais">${estudiante.pais}</span></td>
+                    <td>${estudiante.usuarioTG}</td>
+                    <td class="${estudiante.enCanalTG ? 'telegram-si' : 'telegram-no'}">
+                        ${estudiante.enCanalTG ? 'SÍ' : 'NO'}
+                    </td>
+                    <td><span class="${getEntregableClass(estudiante.entregables13)}">${estudiante.entregables13}</span></td>
+                    <td><span class="${getEntregableClass(estudiante.entregables46)}">${estudiante.entregables46}</span></td>
+                    <td><span class="${getEntregableClass(estudiante.entregables79)}">${estudiante.entregables79}</span></td>
+                    <td>${estudiante.appURL ? `<a href="${estudiante.appURL}" class="link" target="_blank">Ver App</a>` : '-'}</td>
+                    <td>${estudiante.github ? `<a href="${estudiante.github}" class="link" target="_blank">GitHub</a>` : '-'}</td>
+                    <td>${estudiante.baseName || '-'}</td>
+                    <td>${estudiante.farcaster ? `<a href="${estudiante.farcaster}" class="link" target="_blank">Farcaster</a>` : '-'}</td>
+                    <td class="descripcion" title="${estudiante.descripcion}">${estudiante.descripcion}</td>
+                    <td><span class="${entregableClass}">${entregableText}</span></td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Función para exportar a CSV
+        function exportToCSV() {
+            const headers = [
+                'ID', 'Nombre', 'Email', 'País', 'Usuario TG', 'En Canal TG', 
+                'Entregables 1-3', 'Entregables 4-6', 'Entregables 7-9', 
+                'App URL', 'GitHub', 'Base Name', 'Farcaster', 'Descripción Proyecto', 'Estado Final'
+            ];
+
+            let csvContent = headers.join('\t') + '\n';
+
+            estudiantes.forEach(estudiante => {
+                const row = [
+                    estudiante.id,
+                    estudiante.nombre,
+                    estudiante.email,
+                    estudiante.pais,
+                    estudiante.usuarioTG,
+                    estudiante.enCanalTG ? 'SÍ' : 'NO',
+                    estudiante.entregables13,
+                    estudiante.entregables46,
+                    estudiante.entregables79,
+                    estudiante.appURL,
+                    estudiante.github,
+                    estudiante.baseName,
+                    estudiante.farcaster,
+                    estudiante.descripcion,
+                    estudiante.estadoGeneral === 'completo' ? 'ENTREGÓ' : 'NO ENTREGÓ'
+                ];
+                csvContent += row.join('\t') + '\n';
+            });
+
+            // Crear elemento temporal para descarga
+            const element = document.createElement('a');
+            const file = new Blob([csvContent], {type: 'text/plain'});
+            element.href = URL.createObjectURL(file);
+            element.download = 'base_verano_estudiantes.csv';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Filtros
+        function setupFilters() {
+            const paisFilter = document.getElementById('paisFilter');
+            const entregablesFilter = document.getElementById('entregablesFilter');
+            const searchInput = document.getElementById('searchInput');
+
+            function applyFilters() {
+                let filteredData = estudiantes;
+
+                if (paisFilter.value) {
+                    filteredData = filteredData.filter(e => e.pais === paisFilter.value);
+                }
+
+                if (entregablesFilter.value) {
+                    filteredData = filteredData.filter(e => e.estadoGeneral === entregablesFilter.value);
+                }
+
+                if (searchInput.value) {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    filteredData = filteredData.filter(e => 
+                        e.nombre.toLowerCase().includes(searchTerm) ||
+                        e.email.toLowerCase().includes(searchTerm) ||
+                        e.usuarioTG.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                renderTable(filteredData);
+            }
+
+            paisFilter.addEventListener('change', applyFilters);
+            entregablesFilter.addEventListener('change', applyFilters);
+            searchInput.addEventListener('input', applyFilters);
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTable();
+            setupFilters();
+        });
+    </script>
+</body>
+</html>
