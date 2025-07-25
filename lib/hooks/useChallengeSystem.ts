@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { Challenge, BuilderProfile, ChallengeFilters } from '@/lib/types/challenge-system';
+import { Challenge, BuilderProfile, ChallengeFilters, ChallengeCategory, ChallengeLevel, ChallengeStatus } from '@/lib/types/challenge-system';
 
 // Mock data for development - replace with actual API calls
 const mockChallenges: Challenge[] = [
@@ -8,11 +8,15 @@ const mockChallenges: Challenge[] = [
     id: '1',
     title: 'Build Your First DeFi Dashboard',
     description: 'Create a comprehensive DeFi dashboard using React, wagmi, and real-time price feeds. Learn to integrate with multiple protocols and display portfolio analytics.',
-    category: 'technical' as any,
-    level: 'intermediate' as any,
-    status: 'active' as any,
+    category: ChallengeCategory.TECHNICAL,
+    level: ChallengeLevel.INTERMEDIATE,
+    status: ChallengeStatus.ACTIVE,
     duration: 14,
     maxParticipants: 25,
+    spotsAvailable: 18,
+    totalSpots: 25,
+    startDate: new Date('2024-02-01'),
+    endDate: new Date('2024-02-15'),
     minCommitmentScore: 7,
     prerequisites: [
       'Basic React knowledge',
@@ -87,11 +91,15 @@ const mockChallenges: Challenge[] = [
     id: '2',
     title: 'Design a Sustainable Web3 UX',
     description: 'Create user-centered designs for a regenerative finance application, focusing on accessibility and environmental impact visualization.',
-    category: 'design' as any,
-    level: 'beginner' as any,
-    status: 'active' as any,
+    category: ChallengeCategory.DESIGN,
+    level: ChallengeLevel.BEGINNER,
+    status: ChallengeStatus.ACTIVE,
     duration: 10,
     maxParticipants: 20,
+    spotsAvailable: 15,
+    totalSpots: 20,
+    startDate: new Date('2024-02-05'),
+    endDate: new Date('2024-02-15'),
     minCommitmentScore: 6,
     prerequisites: [
       'Basic design principles knowledge',
@@ -157,11 +165,15 @@ const mockChallenges: Challenge[] = [
     id: '3',
     title: 'Launch a Community-Driven Token',
     description: 'Design and execute a token launch strategy using Clanker, focusing on community engagement and sustainable tokenomics.',
-    category: 'business' as any,
-    level: 'advanced' as any,
-    status: 'active' as any,
+    category: ChallengeCategory.BUSINESS,
+    level: ChallengeLevel.ADVANCED,
+    status: ChallengeStatus.ACTIVE,
     duration: 21,
     maxParticipants: 15,
+    spotsAvailable: 10,
+    totalSpots: 15,
+    startDate: new Date('2024-02-10'),
+    endDate: new Date('2024-03-03'),
     minCommitmentScore: 8,
     prerequisites: [
       'Previous token/project launch experience',
@@ -273,14 +285,14 @@ export function useChallengeSystem() {
         skills: [
           {
             name: 'React',
-            category: 'technical' as any,
+            category: ChallengeCategory.TECHNICAL,
             level: 85,
             verifiedChallenges: ['1'],
             lastUpdated: new Date()
           },
           {
             name: 'Sustainable UX',
-            category: 'design' as any,
+            category: ChallengeCategory.DESIGN,
             level: 70,
             verifiedChallenges: ['2'],
             lastUpdated: new Date()

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
+// import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
 
 interface NFTDisplayProps {
   tokenId?: bigint;

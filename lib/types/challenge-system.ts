@@ -44,6 +44,10 @@ export interface Challenge {
   // Challenge parameters
   duration: number; // days
   maxParticipants?: number;
+  spotsAvailable?: number;
+  totalSpots?: number;
+  startDate: Date;
+  endDate: Date;
   minCommitmentScore: number;
   
   // Requirements
@@ -197,7 +201,7 @@ export interface ChallengeEvent {
   type: 'challenge_created' | 'participant_committed' | 'progress_updated' | 'challenge_completed' | 'nft_awarded';
   challengeId: string;
   participantAddress?: string;
-  data: Record<string, any>;
+  data: Record<string, unknown>;
   blockNumber: number;
   transactionHash: string;
   timestamp: Date;
@@ -206,7 +210,7 @@ export interface ChallengeEvent {
 // API Response Types
 export interface ChallengeResponse {
   success: boolean;
-  data?: any;
+  data?: unknown;
   error?: string;
   meta?: {
     pagination?: {
