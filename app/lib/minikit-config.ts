@@ -66,12 +66,15 @@ export function createMiniKitConfig(overrides: Partial<MiniKitConfig> = {}): Min
   if (errors.length > 0) {
     console.warn('MiniKit configuration warnings:', errors);
     
-    // Only throw if critical variables are missing
+    // Only throw if critical variables are missing AND we're in runtime (not build time)
     const hasCriticalErrors = errors.some(error => 
       error.includes('ONCHAINKIT_API_KEY') || error.includes('PROJECT_NAME')
     );
     
-    if (hasCriticalErrors) {
+    // Don't throw during build/static generation - only at runtime
+    const isBuildTime = process.env.NODE_ENV === 'production' && typeof window === 'undefined';
+    
+    if (hasCriticalErrors && !isBuildTime) {
       throw new MiniKitConfigError(
         'Critical MiniKit configuration missing: ' + errors.join(', '),
         'environment',
@@ -90,8 +93,10 @@ export function createMiniKitConfig(overrides: Partial<MiniKitConfig> = {}): Min
     ...overrides,
   };
 
-  // Validate final configuration
-  if (!config.apiKey) {
+  // Validate final configuration (skip during build time)
+  const isBuildTime = process.env.NODE_ENV === 'production' && typeof window === 'undefined';
+  
+  if (!config.apiKey && !isBuildTime) {
     throw new MiniKitConfigError(
       'OnchainKit API key is required',
       'apiKey',
