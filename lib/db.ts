@@ -85,17 +85,7 @@ export const projectService = {
     })
   },
 
-  async createProject(data: {
-    userId: string
-    title: string
-    description?: string
-    problemStatement?: string
-    solutionOverview?: string
-    targetMarket?: string
-    category?: string
-    startDate?: Date
-    targetEndDate?: Date
-  }) {
+  async createProject(data: Prisma.ProjectCreateInput) {
     return prisma.project.create({
       data,
       include: {
@@ -124,29 +114,13 @@ export const projectService = {
 
 // Weekly operations
 export const weeklyService = {
-  async createGoals(data: {
-    projectId: string
-    userId: string
-    weekStartDate: Date
-    goals: Prisma.InputJsonValue // JSON array of goals
-  }) {
+  async createGoals(data: Prisma.WeeklyGoalCreateInput) {
     return prisma.weeklyGoal.create({
       data,
     })
   },
 
-  async createUpdate(data: {
-    projectId: string
-    userId: string
-    weekNumber?: number
-    weekStartDate?: Date
-    wins?: string
-    challenges?: string
-    metrics?: Prisma.InputJsonValue
-    nextWeekPreview?: string
-    mediaUrls?: string[]
-    farcasterCastId?: string
-  }) {
+  async createUpdate(data: Prisma.WeeklyUpdateCreateInput) {
     return prisma.weeklyUpdate.create({
       data,
       include: {
@@ -169,14 +143,7 @@ export const weeklyService = {
 
 // Engagement operations
 export const engagementService = {
-  async recordEngagement(data: {
-    userId: string
-    projectId?: string
-    targetType: 'PROJECT' | 'UPDATE' | 'COMMENT' | 'USER'
-    targetId: string
-    actionType: 'LIKE' | 'COMMENT' | 'SHARE' | 'FOLLOW' | 'UNFOLLOW' | 'REACT'
-    metadata?: Prisma.InputJsonValue
-  }) {
+  async recordEngagement(data: Prisma.EngagementCreateInput) {
     return prisma.engagement.create({
       data,
     })
@@ -195,12 +162,7 @@ export const engagementService = {
 
 // Vote operations
 export const voteService = {
-  async castVote(data: {
-    projectId: string
-    userId: string
-    vote: boolean
-    reason?: string
-  }) {
+  async castVote(data: Prisma.VoteUncheckedCreateInput) {
     return prisma.vote.upsert({
       where: {
         projectId_userId: {
