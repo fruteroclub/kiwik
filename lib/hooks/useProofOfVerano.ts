@@ -30,10 +30,10 @@ export function useProofOfVerano() {
 
   // Parse student info
   const studentInfo: StudentInfo | null = studentInfoRaw ? {
-    signedUp: studentInfoRaw[0] as boolean,
-    completed: studentInfoRaw[1] as boolean,
-    commitmentScore: studentInfoRaw[2] as bigint,
-    deliverables: studentInfoRaw[3] as string[]
+    signedUp: (studentInfoRaw as any)[0] as boolean,
+    completed: (studentInfoRaw as any)[1] as boolean,
+    commitmentScore: (studentInfoRaw as any)[2] as bigint,
+    deliverables: (studentInfoRaw as any)[3] as string[]
   } : null;
 
   // Sign up function

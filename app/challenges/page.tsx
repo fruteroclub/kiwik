@@ -15,14 +15,13 @@ export default function ChallengesPage() {
     builderProfile, 
     isLoading, 
     registerForChallenge,
-    commitToChallenge,
-    searchChallenges 
+    commitToChallenge
   } = useChallengeSystem();
 
   const [selectedFilters, setSelectedFilters] = useState({
     categories: [] as ChallengeCategory[],
     levels: [] as ChallengeLevel[],
-    duration: { min: undefined, max: undefined },
+    duration: { min: undefined as number | undefined, max: undefined as number | undefined },
     hasSpots: false,
     startingSoon: false,
   });
@@ -198,7 +197,7 @@ export default function ChallengesPage() {
                     onClick={() => setSelectedFilters({
                       categories: [],
                       levels: [],
-                      duration: { min: undefined, max: undefined },
+                      duration: { min: undefined as number | undefined, max: undefined as number | undefined },
                       hasSpots: false,
                       startingSoon: false,
                     })}

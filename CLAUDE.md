@@ -6,6 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **kiwik** is a Next.js-based Web3 landing page and MiniKit app for the Base blockchain ecosystem. It's built as a community-driven hub for turning ideas into products with microfunding capabilities.
 
+## Current Development Status
+
+**Active PR**: #29 - Builder Challenge System with NFT Progression
+- **Branch**: feat/builder-challenge-system
+- **Build Status**: FAILING - Missing components
+- **Priority**: Fix build to unblock merge to dev branch
+
 ## Tech Stack
 
 - **Framework**: Next.js 15 with App Router
@@ -144,3 +151,17 @@ No test framework is currently set up. Consider adding Vitest or Jest for unit t
 
 ### Deployment
 The app is configured for Vercel deployment but can work with any Next.js-compatible host. Ensure all environment variables are set in the deployment environment.
+
+## Builder Challenge System (PR #29)
+
+### Build Issues
+Missing components in `app/challenges/page.tsx`:
+- `ChallengeFilters` - Filter UI for challenge discovery
+- `BuilderProfile` - Display builder profile and achievements
+
+Missing dependencies:
+- `@/lib/hooks/useChallengeSystem` - Challenge system state management
+- `@/lib/types/challenge-system` - TypeScript type definitions
+
+### Implementation Plan
+See: `/public/docs/implementation-plans/fix-vercel-build-missing-components.md`

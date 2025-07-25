@@ -4,7 +4,7 @@ import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
 import { NFTDisplay } from './NFTDisplay';
 
 export function StudentDashboard() {
-  const { studentInfo, awardNFT, isLoading } = useProofOfVerano();
+  const { studentInfo, isLoading } = useProofOfVerano();
 
   if (!studentInfo) {
     return (
