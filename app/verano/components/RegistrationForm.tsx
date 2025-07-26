@@ -25,15 +25,15 @@ function ProgressIndicator({ currentStep }: ProgressIndicatorProps) {
         <div key={step.id} className="flex items-center">
           <div className={`flex items-center justify-center w-10 h-10 rounded-full text-sm font-semibold transition-all ${
             index <= currentIndex 
-              ? 'bg-orange-500 text-white' 
-              : 'bg-gray-200 text-gray-500'
+              ? 'bg-[var(--app-accent)] text-white' 
+              : 'bg-[var(--app-gray)] text-[var(--app-foreground-muted)]'
           }`}>
             <span className="text-lg">{step.icon}</span>
           </div>
-          <div className="ml-2 text-xs text-gray-600 hidden sm:block">{step.label}</div>
+          <div className="ml-2 text-xs text-[var(--app-foreground-muted)] hidden sm:block">{step.label}</div>
           {index < steps.length - 1 && (
             <div className={`w-8 h-0.5 mx-2 ${
-              index < currentIndex ? 'bg-orange-500' : 'bg-gray-200'
+              index < currentIndex ? 'bg-[var(--app-accent)]' : 'bg-[var(--app-gray)]'
             }`} />
           )}
         </div>
@@ -60,18 +60,18 @@ export function RegistrationForm() {
 
   if (isSignUpSuccess || currentStep === 'success') {
     return (
-      <div className="bg-green-50 border-2 border-green-300 rounded-xl p-8 text-center">
+      <div className="bg-[var(--app-success-bg)] border-2 border-[var(--app-success-border)] rounded-xl p-8 text-center">
         <span className="text-6xl mb-4 block">🎉</span>
-        <h3 className="text-2xl font-bold text-green-800 mb-4">
+        <h3 className="text-2xl font-bold text-[var(--app-success)] mb-4">
           ¡Registro exitoso!
         </h3>
-        <p className="text-green-700 mb-6">
+        <p className="text-[var(--app-success-muted)] mb-6">
           Ya eres parte del bootcamp Proof of Verano
         </p>
         
-        <div className="bg-white/70 rounded-lg p-4 mb-6">
-          <h4 className="font-semibold text-green-800 mb-2">Próximos pasos:</h4>
-          <div className="text-sm text-green-700 space-y-1">
+        <div className="bg-[var(--app-card-bg)] rounded-lg p-4 mb-6 border border-[var(--app-card-border)]">
+          <h4 className="font-semibold text-[var(--app-success)] mb-2">Próximos pasos:</h4>
+          <div className="text-sm text-[var(--app-success-muted)] space-y-1">
             <p>✅ Únete al Discord de la comunidad</p>
             <p>✅ Revisa el calendario de sesiones</p>
             <p>✅ Prepárate para la primera clase</p>
@@ -80,7 +80,7 @@ export function RegistrationForm() {
 
         <button
           onClick={() => window.location.href = '/verano'}
-          className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all"
+          className="bg-[var(--app-success)] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[var(--app-success-hover)] transition-all"
         >
           Ver mi Dashboard
         </button>
@@ -89,8 +89,8 @@ export function RegistrationForm() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-orange-100 to-yellow-100 rounded-xl p-8 border-2 border-orange-300 max-w-md mx-auto">
-      <h3 className="text-xl font-bold text-orange-900 mb-6 text-center">
+    <div className="bg-[var(--app-card-bg)] backdrop-blur-md rounded-xl p-8 border-2 border-[var(--app-accent)] max-w-md mx-auto">
+      <h3 className="text-xl font-bold text-[var(--app-foreground)] mb-6 text-center">
         Únete al Bootcamp
       </h3>
       
@@ -99,48 +99,48 @@ export function RegistrationForm() {
       <div className="space-y-6">
         {currentStep === 'info' && (
           <div className="space-y-4">
-            <div className="bg-white/70 rounded-lg p-5 border border-orange-200">
-              <h4 className="font-semibold text-orange-800 mb-3">Qué aprenderás:</h4>
-              <div className="space-y-2 text-sm text-gray-700">
+            <div className="bg-[var(--app-card-bg)] rounded-lg p-5 border border-[var(--app-card-border)]">
+              <h4 className="font-semibold text-[var(--app-foreground)] mb-3">Qué aprenderás:</h4>
+              <div className="space-y-2 text-sm text-[var(--app-foreground-muted)]">
                 <div className="flex items-center gap-2">
-                  <span className="text-orange-500">🔗</span>
+                  <span className="text-[var(--app-accent)]">🔗</span>
                   <span>Fundamentos de blockchain y Web3</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-orange-500">⚡</span>
+                  <span className="text-[var(--app-accent)]">⚡</span>
                   <span>Smart contracts con Solidity</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-orange-500">🎨</span>
+                  <span className="text-[var(--app-accent)]">🎨</span>
                   <span>DApps con React y ethers.js</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-orange-500">🏆</span>
+                  <span className="text-[var(--app-accent)]">🏆</span>
                   <span>Certificación NFT en Base</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/70 rounded-lg p-4 border border-orange-200">
+            <div className="bg-[var(--app-card-bg)] rounded-lg p-4 border border-[var(--app-card-border)]">
               <div className="grid grid-cols-3 gap-4 text-center text-sm">
                 <div>
-                  <div className="font-bold text-orange-800">4 Semanas</div>
-                  <div className="text-gray-600">Duración</div>
+                  <div className="font-bold text-[var(--app-accent)]">4 Semanas</div>
+                  <div className="text-[var(--app-foreground-muted)]">Duración</div>
                 </div>
                 <div>
-                  <div className="font-bold text-orange-800">100% Gratis</div>
-                  <div className="text-gray-600">Sin costo</div>
+                  <div className="font-bold text-[var(--app-accent)]">100% Gratis</div>
+                  <div className="text-[var(--app-foreground-muted)]">Sin costo</div>
                 </div>
                 <div>
-                  <div className="font-bold text-orange-800">NFT</div>
-                  <div className="text-gray-600">Certificado</div>
+                  <div className="font-bold text-[var(--app-accent)]">NFT</div>
+                  <div className="text-[var(--app-foreground-muted)]">Certificado</div>
                 </div>
               </div>
             </div>
 
             <button
               onClick={() => setCurrentStep('commitment')}
-              className="w-full py-3 px-6 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-all"
+              className="w-full py-3 px-6 bg-[var(--app-accent)] text-white rounded-lg font-semibold hover:bg-[var(--app-accent-hover)] transition-all"
             >
               Continuar
             </button>
@@ -149,17 +149,17 @@ export function RegistrationForm() {
 
         {currentStep === 'commitment' && (
           <div className="space-y-4">
-            <div className="bg-white/70 rounded-lg p-5 border border-orange-200">
-              <h4 className="font-semibold text-orange-800 mb-3">Mi compromiso:</h4>
+            <div className="bg-[var(--app-card-bg)] rounded-lg p-5 border border-[var(--app-card-border)]">
+              <h4 className="font-semibold text-[var(--app-foreground)] mb-3">Mi compromiso:</h4>
               <div className="space-y-3">
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={hasCommitted}
                     onChange={(e) => setHasCommitted(e.target.checked)}
-                    className="mt-1 w-4 h-4 text-orange-500 rounded border-2 border-orange-300 focus:ring-orange-500"
+                    className="mt-1 w-4 h-4 text-[var(--app-accent)] rounded border-2 border-[var(--app-card-border)] focus:ring-[var(--app-accent)]"
                   />
-                  <div className="text-sm text-gray-700">
+                  <div className="text-sm text-[var(--app-foreground-muted)]">
                     <strong>Acepto comprometerme a:</strong>
                     <ul className="mt-2 space-y-1 ml-4">
                       <li>• Participar activamente en las 4 semanas del bootcamp</li>
@@ -172,8 +172,8 @@ export function RegistrationForm() {
               </div>
             </div>
 
-            <div className="bg-white/70 rounded-lg p-4 border border-orange-200">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="bg-[var(--app-card-bg)] rounded-lg p-4 border border-[var(--app-card-border)]">
+              <label className="block text-sm font-medium text-[var(--app-foreground)] mb-2">
                 Email (opcional - para notificaciones)
               </label>
               <input
@@ -181,14 +181,14 @@ export function RegistrationForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu@email.com"
-                className="w-full px-3 py-2 border border-orange-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-[var(--app-card-border)] rounded-md text-sm bg-[var(--app-background)] text-[var(--app-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--app-accent)] focus:border-[var(--app-accent)]"
               />
             </div>
 
             <div className="flex gap-3">
               <button
                 onClick={() => setCurrentStep('info')}
-                className="flex-1 py-3 px-6 border border-orange-500 text-orange-500 rounded-lg font-semibold hover:bg-orange-50 transition-all"
+                className="flex-1 py-3 px-6 border border-[var(--app-accent)] text-[var(--app-accent)] rounded-lg font-semibold hover:bg-[var(--app-accent-light)] transition-all"
               >
                 Volver
               </button>
@@ -197,8 +197,8 @@ export function RegistrationForm() {
                 disabled={!hasCommitted}
                 className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all ${
                   hasCommitted
-                    ? 'bg-orange-500 text-white hover:bg-orange-600'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent-hover)]'
+                    : 'bg-[var(--app-gray)] text-[var(--app-foreground-muted)] cursor-not-allowed'
                 }`}
               >
                 Registrarme
@@ -210,26 +210,26 @@ export function RegistrationForm() {
         {currentStep === 'register' && (
           <div className="space-y-4">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--app-accent-light)] rounded-full mb-4">
                 <span className="text-2xl animate-spin">⏳</span>
               </div>
-              <h4 className="text-lg font-semibold text-orange-800 mb-2">
+              <h4 className="text-lg font-semibold text-[var(--app-accent)] mb-2">
                 Procesando registro...
               </h4>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[var(--app-foreground-muted)]">
                 Estamos registrando tu participación en la blockchain. 
                 Este proceso puede tomar unos segundos.
               </p>
             </div>
             
             {signUpError && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-sm text-red-700 text-center">
+              <div className="bg-[var(--app-error-bg)] border border-[var(--app-error-border)] rounded-lg p-4">
+                <p className="text-sm text-[var(--app-error)] text-center">
                   Error: {signUpError.message || 'No se pudo completar el registro'}
                 </p>
                 <button
                   onClick={() => setCurrentStep('commitment')}
-                  className="w-full mt-3 py-2 px-4 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-all"
+                  className="w-full mt-3 py-2 px-4 text-sm bg-[var(--app-error)] text-white rounded-md hover:bg-[var(--app-error-hover)] transition-all"
                 >
                   Intentar de nuevo
                 </button>
@@ -238,7 +238,7 @@ export function RegistrationForm() {
           </div>
         )}
 
-        <p className="text-xs text-center text-gray-600">
+        <p className="text-xs text-center text-[var(--app-foreground-muted)]">
           El registro es gratuito y se realiza on-chain en Base
         </p>
       </div>
