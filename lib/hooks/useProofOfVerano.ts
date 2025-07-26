@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Address } from 'viem';
 
 // Deployed on Base Sepolia
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_PROOF_OF_VERANO_ADDRESS as Address || '0xc50dc3d7a967393a4ebf7944b0c6c819d10aa250';
+const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_PROOF_OF_VERANO_ADDRESS || '0xc50dc3d7a967393a4ebf7944b0c6c819d10aa250').trim() as Address;
 
 export interface StudentInfo {
   signedUp: boolean;
