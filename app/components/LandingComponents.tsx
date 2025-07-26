@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Button } from "./DemoComponents";
 import {
   ConnectWallet,
@@ -710,6 +711,7 @@ export function Footer() {
               <a href="#" className="block text-gray-300 hover:text-white transition-colors">API</a>
               <a href="#" className="block text-gray-300 hover:text-white transition-colors">Blog</a>
               <a href="#" className="block text-gray-300 hover:text-white transition-colors">Support</a>
+              <Link href="/?view=frame-info" className="block text-gray-300 hover:text-white transition-colors">Farcaster Frame</Link>
             </div>
           </div>
           

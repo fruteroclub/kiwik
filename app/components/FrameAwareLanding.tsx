@@ -26,17 +26,25 @@ export function FrameAwareLanding() {
   const { frameInfo, frameActions } = useFarcasterFrame();
   const [isLoading, setIsLoading] = useState(true);
   const [showFrameContent, setShowFrameContent] = useState(false);
+  const [forceShowLanding, setForceShowLanding] = useState(false);
 
   // Check environment and frame readiness
   useEffect(() => {
     const checkEnvironment = async () => {
       const isFrame = isFrameEnvironment();
-      setShowFrameContent(isFrame);
       
-      // Simulate loading time for frame initialization
-      if (isFrame) {
+      // Check if user wants to see Farcaster access instructions
+      const urlParams = new URLSearchParams(window.location.search);
+      const showFrameInfo = urlParams.get('view') === 'frame-info';
+      
+      setShowFrameContent(isFrame && !showFrameInfo);
+      setForceShowLanding(!isFrame && !showFrameInfo);
+      
+      // Only simulate loading for actual frame environments with Farcaster context
+      if (isFrame && !showFrameInfo && (document.referrer.includes('farcaster') || window.navigator.userAgent.includes('Farcaster'))) {
         setTimeout(() => setIsLoading(false), 1000);
       } else {
+        // For regular browsers and non-Farcaster contexts, show immediately
         setIsLoading(false);
       }
     };
@@ -219,9 +227,10 @@ export function FrameAwareLanding() {
     );
   }
 
-  // Non-frame environment - show full landing page
-  return (
-    <FrameFallback>
+  // Non-frame environment - show full landing page or Farcaster instructions
+  if (forceShowLanding) {
+    // Show full landing page (default for regular website)
+    return (
       <div className="min-h-screen bg-[var(--app-background)] text-[var(--app-foreground)]">
         <NavigationHeader />
         
@@ -238,6 +247,9 @@ export function FrameAwareLanding() {
         
         <Footer />
       </div>
-    </FrameFallback>
-  );
+    );
+  }
+
+  // Show Farcaster access instructions (when ?view=frame-info)
+  return <FrameFallback />;
 }
