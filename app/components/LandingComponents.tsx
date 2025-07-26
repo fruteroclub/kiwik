@@ -621,6 +621,8 @@ export function FinalCTASection() {
 
 // Navigation Header Component
 export function NavigationHeader() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <header className="fixed top-0 w-full bg-[var(--app-card-bg)] backdrop-blur-md border-b border-[var(--app-card-border)] z-50">
       <div className="container mx-auto max-w-7xl px-4">
@@ -629,7 +631,7 @@ export function NavigationHeader() {
             <div className="text-2xl font-bold text-[var(--app-accent)]">kiwik</div>
           </div>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             <a href="#projects" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors">
               Projects
             </a>
@@ -639,7 +641,10 @@ export function NavigationHeader() {
             <a href="#how-it-works" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors">
               How It Works
             </a>
-            <a href="/verano" className="text-orange-500 hover:text-orange-600 transition-colors font-medium">
+            <a 
+              href="/verano" 
+              className="inline-flex items-center gap-1 px-3 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-full text-sm font-semibold hover:from-orange-600 hover:to-yellow-600 transition-all duration-200 shadow-md hover:shadow-lg"
+            >
               🌞 Bootcamp
             </a>
             <a href="#about" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors">
@@ -647,14 +652,17 @@ export function NavigationHeader() {
             </a>
           </nav>
 
-          {/* Mobile menu button */}
-          <button className="md:hidden p-2 text-[var(--app-foreground-muted)]">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-
           <div className="flex items-center space-x-4">
+            {/* Mobile menu button */}
+            <button 
+              className="md:hidden p-2 text-[var(--app-foreground-muted)]"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
             <Wallet className="z-10">
               <ConnectWallet className="px-4 py-2">
                 <Name className="text-inherit" />
@@ -671,6 +679,33 @@ export function NavigationHeader() {
             </Wallet>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-[var(--app-card-border)]">
+            <nav className="flex flex-col space-y-4">
+              <a 
+                href="/verano" 
+                className="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-yellow-600 transition-all duration-200 shadow-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                🌞 Únete al Bootcamp Web3
+              </a>
+              <a href="#projects" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors px-4 py-2">
+                Projects
+              </a>
+              <a href="#creators" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors px-4 py-2">
+                Creators
+              </a>
+              <a href="#how-it-works" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors px-4 py-2">
+                How It Works
+              </a>
+              <a href="#about" className="text-[var(--app-foreground-muted)] hover:text-[var(--app-foreground)] transition-colors px-4 py-2">
+                About
+              </a>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );

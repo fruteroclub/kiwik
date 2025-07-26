@@ -74,6 +74,50 @@ export function FrameAwareLanding() {
         <FrameHeader variant="minimal" />
         
         <main className="pt-20 pb-8">
+          {/* Verano Hero Section for Frame - Top Priority */}
+          <section className="px-4 py-6 bg-gradient-to-br from-orange-50 to-yellow-50">
+            <div className="max-w-2xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <span className="text-lg">🌞</span>
+                <span>NUEVO BOOTCAMP</span>
+              </div>
+              
+              <h2 className="text-3xl lg:text-4xl font-bold text-orange-900 mb-3">
+                Proof of Verano
+              </h2>
+              <h3 className="text-xl text-orange-800 mb-4">
+                Aprende Web3 este verano
+              </h3>
+              <p className="text-base text-orange-700 mb-6">
+                4 semanas intensivas • Certificación NFT • Completamente gratis
+              </p>
+              
+              <div className="flex justify-center mb-6">
+                <a 
+                  href="/verano" 
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-white hover:from-orange-600 hover:to-yellow-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  🚀 Únete al Bootcamp
+                </a>
+              </div>
+              
+              <div className="flex justify-center gap-6 text-center text-sm text-orange-600 mb-6">
+                <div>
+                  <div className="font-bold">25+</div>
+                  <div>Estudiantes</div>
+                </div>
+                <div>
+                  <div className="font-bold">4 Sem</div>
+                  <div>Duración</div>
+                </div>
+                <div>
+                  <div className="font-bold">NFT</div>
+                  <div>Certificado</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Compact Hero Section for Frame */}
           <section className="px-4 py-8">
             <div className="max-w-2xl mx-auto text-center">
@@ -92,15 +136,6 @@ export function FrameAwareLanding() {
                 <button className="border border-[var(--app-accent)] text-[var(--app-accent)] px-6 py-3 rounded-lg font-medium hover:bg-[var(--app-accent-light)] transition-colors">
                   Explore Projects
                 </button>
-              </div>
-              
-              <div className="flex justify-center mb-8">
-                <a 
-                  href="/verano" 
-                  className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg bg-gradient-to-r from-orange-500 to-yellow-500 text-white hover:from-orange-600 hover:to-yellow-600 transition-all duration-200 shadow-lg hover:shadow-xl"
-                >
-                  🌞 Proof of Verano - Bootcamp Web3
-                </a>
               </div>
 
               <div className="flex justify-center gap-8 text-center mb-8">
@@ -236,8 +271,8 @@ export function FrameAwareLanding() {
         
         <main>
           <HeroSection />
-          <BenefitsSection />
           <ProofOfVeranoSection />
+          <BenefitsSection />
           <MarketplaceSection />
           <AISection />
           <HowItWorksSection />
