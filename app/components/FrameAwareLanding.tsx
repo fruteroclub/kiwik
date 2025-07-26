@@ -251,5 +251,28 @@ export function FrameAwareLanding() {
   }
 
   // Show Farcaster access instructions (when ?view=frame-info)
-  return <FrameFallback />;
+  return (
+    <FrameFallback>
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
+        <div className="text-center text-white max-w-2xl">
+          <h1 className="text-4xl font-bold mb-6">Access via Farcaster Frame</h1>
+          <p className="text-lg mb-8">
+            This app is designed to work as a Farcaster Frame. 
+            To access the full experience, visit this link through a Farcaster client.
+          </p>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <p className="text-sm text-gray-300 mb-4">
+              Or continue to the regular web version:
+            </p>
+            <button 
+              onClick={() => setForceShowLanding(true)}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
+            >
+              View Web Version
+            </button>
+          </div>
+        </div>
+      </div>
+    </FrameFallback>
+  );
 }
