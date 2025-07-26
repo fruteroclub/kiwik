@@ -76,15 +76,15 @@ export function AdminPanel() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-lg p-8 border border-orange-200">
-        <h2 className="text-2xl font-bold text-orange-900 mb-6">
+      <div className="bg-[var(--app-card-bg)] rounded-xl shadow-lg p-8 border border-[var(--app-card-border)]">
+        <h2 className="text-2xl font-bold text-[var(--app-foreground)] mb-6">
           Panel de Administración
         </h2>
 
         {/* Student Selection */}
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[var(--app-foreground-muted)] mb-2">
               Dirección del Estudiante
             </label>
             <input
@@ -92,13 +92,13 @@ export function AdminPanel() {
               value={selectedStudent.address}
               onChange={(e) => setSelectedStudent({ ...selectedStudent, address: e.target.value })}
               placeholder="0x..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-[var(--app-card-border)] rounded-lg focus:ring-2 focus:ring-[var(--app-accent)] focus:border-transparent bg-[var(--app-background)] text-[var(--app-foreground)]"
             />
           </div>
 
           {/* Commitment Score */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[var(--app-foreground-muted)] mb-2">
               Score de Compromiso (0-10)
             </label>
             <input
@@ -110,13 +110,13 @@ export function AdminPanel() {
                 ...selectedStudent, 
                 commitmentScore: Math.min(10, Math.max(0, parseInt(e.target.value) || 0))
               })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-[var(--app-card-border)] rounded-lg focus:ring-2 focus:ring-[var(--app-accent)] focus:border-transparent bg-[var(--app-background)] text-[var(--app-foreground)]"
             />
           </div>
 
           {/* Deliverables */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[var(--app-foreground-muted)] mb-2">
               Entregables
             </label>
             <div className="space-y-3">
@@ -131,7 +131,7 @@ export function AdminPanel() {
                 />
                 <button
                   onClick={handleAddDeliverable}
-                  className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                  className="px-4 py-2 bg-[var(--app-accent)] text-white rounded-lg hover:bg-[var(--app-accent-hover)] transition-colors"
                 >
                   Agregar
                 </button>
@@ -141,12 +141,12 @@ export function AdminPanel() {
                 {selectedStudent.deliverables.map((deliverable, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-3 bg-orange-50 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-[var(--app-accent-light)] rounded-lg"
                   >
-                    <span className="text-sm text-gray-700">{deliverable}</span>
+                    <span className="text-sm text-[var(--app-foreground-muted)]">{deliverable}</span>
                     <button
                       onClick={() => handleRemoveDeliverable(index)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-[var(--app-error)] hover:text-[var(--app-error-hover)]"
                     >
                       ✕
                     </button>
@@ -162,8 +162,8 @@ export function AdminPanel() {
             disabled={isLoading}
             className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
               isLoading
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-green-500 text-white hover:bg-green-600'
+                ? 'bg-[var(--app-gray)] text-[var(--app-foreground-muted)] cursor-not-allowed'
+                : 'bg-[var(--app-success)] text-white hover:bg-[var(--app-success-hover)]'
             }`}
           >
             {isLoading ? 'Procesando...' : 'Marcar como Completado'}
@@ -172,14 +172,14 @@ export function AdminPanel() {
       </div>
 
       {/* Award NFT Section */}
-      <div className="bg-white rounded-xl shadow-lg p-8 border border-orange-200">
-        <h3 className="text-xl font-bold text-orange-900 mb-6">
+      <div className="bg-[var(--app-card-bg)] rounded-xl shadow-lg p-8 border border-[var(--app-card-border)]">
+        <h3 className="text-xl font-bold text-[var(--app-foreground)] mb-6">
           Otorgar NFT de Certificación
         </h3>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[var(--app-foreground-muted)] mb-2">
               URI del Token (metadata)
             </label>
             <input
@@ -187,9 +187,9 @@ export function AdminPanel() {
               value={tokenURI}
               onChange={(e) => setTokenURI(e.target.value)}
               placeholder="ipfs://... o https://..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-[var(--app-card-border)] rounded-lg focus:ring-2 focus:ring-[var(--app-accent)] focus:border-transparent bg-[var(--app-background)] text-[var(--app-foreground)]"
             />
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-[var(--app-foreground-muted)]">
               URL de la metadata del NFT (imagen, descripción, atributos)
             </p>
           </div>
@@ -199,8 +199,8 @@ export function AdminPanel() {
             disabled={isLoading || !selectedStudent.address}
             className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
               isLoading || !selectedStudent.address
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-purple-500 text-white hover:bg-purple-600'
+                ? 'bg-[var(--app-gray)] text-[var(--app-foreground-muted)] cursor-not-allowed'
+                : 'bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent-hover)]'
             }`}
           >
             {isLoading ? 'Procesando...' : 'Otorgar NFT'}
@@ -209,11 +209,11 @@ export function AdminPanel() {
       </div>
 
       {/* Instructions */}
-      <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
-        <h4 className="font-semibold text-blue-900 mb-2">
+      <div className="bg-[var(--app-accent-light)] rounded-xl p-6 border border-[var(--app-card-border)]">
+        <h4 className="font-semibold text-[var(--app-accent)] mb-2">
           Instrucciones para Admin
         </h4>
-        <ol className="space-y-2 text-sm text-blue-700">
+        <ol className="space-y-2 text-sm text-[var(--app-accent)]">
           <li>1. Ingresa la dirección del estudiante</li>
           <li>2. Asigna un score de compromiso (0-10)</li>
           <li>3. Agrega los entregables completados</li>
