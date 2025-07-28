@@ -8,10 +8,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Current Development Status
 
-**Active PR**: #29 - Builder Challenge System with NFT Progression
-- **Branch**: feat/builder-challenge-system
-- **Build Status**: FAILING - Missing components
-- **Priority**: Fix build to unblock merge to dev branch
+**Current Branch**: dev (main development branch)
+- **Last Update**: Landing page adapted to focus on Proof of Verano registration
+- **Recent Changes**: 
+  - Migrated verano content to main landing page (app/page.tsx)
+  - Original landing page backed up to app/kiwik-landing/page.tsx
+  - Applied blue+dark theme across all components
+  - Fixed font implementation with Funnel Display for headings
+  - Improved mobile navigation with proper touch targets
+
+**Previous PR**: #31 - Landing Page Migration (merged to dev)
+- **Status**: COMPLETED - Font fixes and landing page adaptation
 
 ## Tech Stack
 
@@ -44,13 +51,16 @@ bun run lint         # Run ESLint
 /app                 # Next.js App Router
   /api              # API routes (notifications, webhooks)
   /components       # React components (DemoComponents.tsx)
+  /kiwik-landing    # Original landing page backup
   /verano           # Proof of Verano bootcamp app
   layout.tsx        # Root layout with metadata generation
-  page.tsx          # Main landing page
+  page.tsx          # Main landing page (now Proof of Verano focused)
   providers.tsx     # MiniKitProvider wrapper
+  theme.css         # CSS theming variables
 /lib                # Utilities (Redis, notifications)
   /contracts        # Smart contract ABIs and deployment info
   /hooks            # Custom React hooks (wagmi integrations)
+  fonts.ts          # Font configuration with Funnel Display
 /public/docs        # Project documentation and operations center (see below)
 /docs               # Development documentation (deployment guides, plans)
 ```
@@ -96,9 +106,10 @@ The `/public/docs` directory serves as the project's documentation and operation
 2. **Component Organization**: Currently all UI components are in a single `DemoComponents.tsx` file with exports for Button, Icon, Home, Features, etc.
 
 3. **Styling Approach**: 
-   - Tailwind CSS with custom theme.css
-   - CSS variables for theming (--app-accent, --app-background, etc.)
+   - Tailwind CSS with custom theme.css and blue+dark theme
+   - CSS variables for theming (--app-accent: blue, --app-background, etc.)
    - OnchainKit styles imported globally
+   - Consistent blue theme across all components (no orange/yellow)
 
 4. **Environment Configuration**: Heavy reliance on environment variables for:
    - OnchainKit API keys
@@ -140,11 +151,14 @@ Components should be added to the existing `DemoComponents.tsx` or create new fi
 - All blockchain interactions are on Base network
 
 ### Proof of Verano Integration
-The project includes a Web3 bootcamp certification system:
+The project includes a Web3 bootcamp certification system (now the main focus):
 - Smart contract deployed on Base Sepolia: `0xc50dc3d7a967393a4ebf7944b0c6c819d10aa250`
-- Full UI at `/verano` route with registration, dashboard, and admin panel
+- **Main landing page** (app/page.tsx) features registration and bootcamp info
+- Full UI at `/verano` route with dashboard and admin panel
+- Original landing page preserved at `/kiwik-landing` route
 - Custom hook `useProofOfVerano` for contract interactions
 - NFT certificate minting for graduates
+- Mobile-friendly navigation with 44x44px touch targets
 
 ### Testing Considerations
 No test framework is currently set up. Consider adding Vitest or Jest for unit tests.
@@ -152,16 +166,35 @@ No test framework is currently set up. Consider adding Vitest or Jest for unit t
 ### Deployment
 The app is configured for Vercel deployment but can work with any Next.js-compatible host. Ensure all environment variables are set in the deployment environment.
 
-## Builder Challenge System (PR #29)
+## Font Implementation
 
-### Build Issues
-Missing components in `app/challenges/page.tsx`:
-- `ChallengeFilters` - Filter UI for challenge discovery
-- `BuilderProfile` - Display builder profile and achievements
+The project uses Funnel Display font for headings and Raleway for body text:
+- **Headings (H1-H3)**: Funnel Display font via `/lib/fonts.ts`
+- **Body Text**: Raleway font family
+- **Font Files**: Located in `/public/fonts/` directory
+- **Configuration**: Proper Next.js font optimization with `localFont`
 
-Missing dependencies:
-- `@/lib/hooks/useChallengeSystem` - Challenge system state management
-- `@/lib/types/challenge-system` - TypeScript type definitions
+## Theme & Design System
 
-### Implementation Plan
-See: `/public/docs/implementation-plans/fix-vercel-build-missing-components.md`
+### CSS Variables (app/theme.css)
+```css
+--app-accent: blue-themed primary color
+--app-background: dark theme background
+--app-foreground: text colors
+--app-card-bg: card background colors
+--app-success, --app-error: status colors
+```
+
+### Navigation Design
+- Mobile-first approach with 44x44px minimum touch targets
+- Simplified tab-based navigation for better UX
+- Responsive design that works across all screen sizes
+
+## Next Steps & Available Tickets
+
+High-priority tickets ready for implementation:
+1. **Privy Authentication** (Ticket 1.2) - Farcaster Sign In integration
+2. **Builder Challenge System** - Community challenges and NFT progression
+3. **Project Creation Flow** - Core MVP functionality
+
+See `/public/docs/todos/` for detailed implementation plans.
