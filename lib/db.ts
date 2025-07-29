@@ -15,6 +15,18 @@ export const userService = {
     })
   },
 
+  async findByFarcasterId(farcasterId: string) {
+    return prisma.user.findUnique({
+      where: { farcasterId },
+    })
+  },
+
+  async findByFarcasterUsername(farcasterUsername: string) {
+    return prisma.user.findUnique({
+      where: { farcasterUsername },
+    })
+  },
+
   async createUser(data: {
     appWallet?: string
     username?: string
@@ -22,6 +34,18 @@ export const userService = {
     email?: string
     bio?: string
     avatarUrl?: string
+    farcasterId?: string
+    farcasterUsername?: string
+    farcasterCustody?: string
+    farcasterVerified?: boolean
+    followerCount?: number
+    followingCount?: number
+    powerBadge?: boolean
+    verifiedAddresses?: any
+    nftTokenId?: string
+    bootcampCompleted?: boolean
+    completionDate?: Date
+    commitmentScore?: number
   }) {
     return prisma.user.create({
       data,
@@ -37,10 +61,70 @@ export const userService = {
     avatarUrl: string
     bannerUrl: string
     metadata: string
+    appWallet: string
+    farcasterId: string
+    farcasterUsername: string
+    farcasterCustody: string
+    farcasterVerified: boolean
+    followerCount: number
+    followingCount: number
+    powerBadge: boolean
+    verifiedAddresses: any
+    nftTokenId: string
+    bootcampCompleted: boolean
+    completionDate: Date
+    commitmentScore: number
   }>) {
     return prisma.user.update({
       where: { id },
       data,
+    })
+  },
+
+  async updateUserFarcasterData(id: string, data: {
+    farcasterId?: string
+    farcasterUsername?: string
+    farcasterCustody?: string
+    farcasterVerified?: boolean
+    followerCount?: number
+    followingCount?: number
+    powerBadge?: boolean
+    verifiedAddresses?: any
+  }) {
+    return prisma.user.update({
+      where: { id },
+      data,
+    })
+  },
+
+  async getAllUsers() {
+    return prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+    })
+  },
+
+  async getUsersByBootcampStatus(completed: boolean) {
+    return prisma.user.findMany({
+      where: { bootcampCompleted: completed },
+      orderBy: { createdAt: 'desc' },
+    })
+  },
+
+  async getUsersWithFarcaster() {
+    return prisma.user.findMany({
+      where: {
+        farcasterId: { not: null },
+      },
+      orderBy: { createdAt: 'desc' },
+    })
+  },
+
+  async getUsersWithNFT() {
+    return prisma.user.findMany({
+      where: {
+        nftTokenId: { not: null },
+      },
+      orderBy: { createdAt: 'desc' },
     })
   },
 }
