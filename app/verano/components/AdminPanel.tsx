@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
 import { Address } from 'viem';
+import { useFarcasterFrame } from '@/app/hooks/useFarcasterFrame';
 
 interface StudentEntry {
   address: string;
@@ -11,7 +12,9 @@ interface StudentEntry {
 }
 
 export function AdminPanel() {
-  const { completeBootcamp, awardNFT, isLoading } = useProofOfVerano();
+  const { completeBootcamp, awardNFT, isLoading, isAwardSuccess } = useProofOfVerano();
+  const { frameInfo } = useFarcasterFrame();
+  const [lastAwardedStudent, setLastAwardedStudent] = useState<string | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<StudentEntry>({
     address: '',
     commitmentScore: 0,
@@ -63,16 +66,60 @@ export function AdminPanel() {
     }
 
     try {
+      // Store the student address before awarding
+      setLastAwardedStudent(selectedStudent.address);
+      
       await awardNFT(
         selectedStudent.address as Address,
         tokenURI
       );
-      alert('NFT otorgado exitosamente');
+      
+      // The registration will be triggered automatically by the hook
+      alert('NFT otorgado exitosamente. El usuario será registrado en la base de datos.');
     } catch (error) {
       console.error('Error awarding NFT:', error);
       alert('Error al otorgar NFT');
+      setLastAwardedStudent(null);
     }
   };
+
+  // Effect to handle user registration after NFT award via API
+  useEffect(() => {
+    const registerAwardedUser = async () => {
+      if (isAwardSuccess && lastAwardedStudent) {
+        console.log('Admin Panel: Triggering user registration for:', lastAwardedStudent);
+        
+        try {
+          const response = await fetch('/api/users/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              walletAddress: lastAwardedStudent,
+              tokenId: 'admin_award_' + Date.now(), // Generate unique token ID
+              commitmentScore: selectedStudent.commitmentScore,
+              farcasterContext: frameInfo.context
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Registration failed: ${response.status}`);
+          }
+
+          const result = await response.json();
+          console.log('Admin Panel: User registration successful:', result.user?.id);
+          
+          // Reset after successful registration
+          setLastAwardedStudent(null);
+        } catch (error) {
+          console.error('Admin Panel: Failed to register user:', error);
+        }
+      }
+    };
+
+    registerAwardedUser();
+  }, [isAwardSuccess, lastAwardedStudent, selectedStudent.commitmentScore, frameInfo.context]);
 
   return (
     <div className="space-y-6">

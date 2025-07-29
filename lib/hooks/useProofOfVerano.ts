@@ -2,6 +2,7 @@ import { useAccount, useReadContract, useWriteContract, useWaitForTransactionRec
 import { ProofOfVeranoABI } from '../contracts/ProofOfVeranoABI';
 import { useState, useEffect } from 'react';
 import { Address } from 'viem';
+import { useFarcasterFrame } from '@/app/hooks/useFarcasterFrame';
 
 // Deployed on Base Sepolia
 const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_PROOF_OF_VERANO_ADDRESS || '0xc50dc3d7a967393a4ebf7944b0c6c819d10aa250').trim() as Address;
@@ -16,6 +17,7 @@ export interface StudentInfo {
 export function useProofOfVerano() {
   const { address, isConnected } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
+  const { frameInfo } = useFarcasterFrame();
 
   // Read student info
   const { data: studentInfoRaw, refetch: refetchStudentInfo } = useReadContract({
@@ -141,6 +143,41 @@ export function useProofOfVerano() {
       refetchStudentInfo();
     }
   }, [isSignUpSuccess, isCompleteSuccess, isAwardSuccess, refetchStudentInfo]);
+
+  // Handle NFT award success - Register user in database via API
+  useEffect(() => {
+    const handleNFTAwardSuccess = async () => {
+      if (isAwardSuccess && awardHash && address) {
+        console.log('NFT award successful, triggering user registration via API');
+        
+        try {
+          const response = await fetch('/api/users/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              walletAddress: address,
+              tokenId: awardHash, // Using transaction hash as temporary token ID
+              farcasterContext: frameInfo.context
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Registration failed: ${response.status}`);
+          }
+
+          const result = await response.json();
+          console.log('User registration completed successfully:', result.user?.id);
+        } catch (error) {
+          console.error('Failed to register user after NFT award:', error);
+          // Don't block the UI - registration happens in background
+        }
+      }
+    };
+
+    handleNFTAwardSuccess();
+  }, [isAwardSuccess, awardHash, address, frameInfo.context]);
 
   return {
     // State

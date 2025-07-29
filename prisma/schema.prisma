@@ -23,6 +23,23 @@ model User {
   metadata           String?
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
+  
+  // Farcaster Integration Fields
+  farcasterId        String?        @unique
+  farcasterUsername  String?        @unique
+  farcasterCustody   String?
+  farcasterVerified  Boolean        @default(false)
+  followerCount      Int?
+  followingCount     Int?
+  powerBadge         Boolean        @default(false)
+  verifiedAddresses  Json?
+  
+  // NFT Integration Fields
+  nftTokenId         String?
+  bootcampCompleted  Boolean        @default(false)
+  completionDate     DateTime?
+  commitmentScore    Int?
+  
   comments           Comment[]
   engagement         Engagement[]
   projects           Project[]
