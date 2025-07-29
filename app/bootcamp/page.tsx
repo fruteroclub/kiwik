@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Address } from 'viem';
+import { useAccount } from 'wagmi';
+import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
 
 interface RegisteredStudent {
   id: string;
@@ -27,6 +29,20 @@ export default function BootcampDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'completed' | 'registered'>('all');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [registrationMessage, setRegistrationMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  
+  // Wallet and NFT status
+  const { address, isConnected } = useAccount();
+  const { studentInfo, isLoading: isLoadingNFT } = useProofOfVerano();
+  
+  // Check if current user is registered in database
+  const currentUserInDB = students.find(s => 
+    s.appWallet?.toLowerCase() === address?.toLowerCase()
+  );
+  
+  // User has NFT but not in database
+  const needsRegistration = isConnected && studentInfo?.completed && !currentUserInDB;
 
   useEffect(() => {
     fetchStudents();
@@ -77,6 +93,48 @@ export default function BootcampDashboard() {
     );
   }
 
+  const handleRegistration = async () => {
+    if (!address) return;
+    
+    setIsRegistering(true);
+    setRegistrationMessage(null);
+    
+    try {
+      const response = await fetch('/api/users/sync', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          walletAddress: address
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok && result.synced) {
+        setRegistrationMessage({
+          type: 'success',
+          text: '¡Registro exitoso! Tu NFT ha sido sincronizado con la base de datos.'
+        });
+        // Refresh students list
+        await fetchStudents();
+      } else {
+        setRegistrationMessage({
+          type: 'error',
+          text: result.message || 'Error al registrar. Por favor intenta de nuevo.'
+        });
+      }
+    } catch (error) {
+      setRegistrationMessage({
+        type: 'error',
+        text: 'Error de conexión. Por favor intenta de nuevo.'
+      });
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[var(--app-background)] p-8">
       <div className="max-w-7xl mx-auto">
@@ -89,6 +147,184 @@ export default function BootcampDashboard() {
             Estudiantes registrados en Proof of Verano
           </p>
         </div>
+
+        {/* User Status Banner */}
+        {isConnected && (
+          <div className="mb-8">
+            <div className="bg-[var(--app-card-bg)] rounded-xl p-6 border border-[var(--app-card-border)]">
+              <h2 className="text-lg font-semibold text-[var(--app-foreground)] mb-4">
+                Tu Estado en el Bootcamp
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Wallet Status */}
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 rounded-full bg-green-100">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-[var(--app-foreground-muted)]">Wallet Conectada</p>
+                    <p className="text-xs font-mono">{address?.slice(0, 6)}...{address?.slice(-4)}</p>
+                  </div>
+                </div>
+                
+                {/* NFT Status */}
+                <div className="flex items-center space-x-3">
+                  {isLoadingNFT ? (
+                    <div className="p-2 rounded-full bg-gray-100">
+                      <div className="w-5 h-5 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  ) : studentInfo?.completed ? (
+                    <div className="p-2 rounded-full bg-green-100">
+                      <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  ) : (
+                    <div className="p-2 rounded-full bg-yellow-100">
+                      <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm text-[var(--app-foreground-muted)]">NFT de Certificación</p>
+                    <p className="text-xs font-medium">
+                      {isLoadingNFT ? 'Verificando...' : studentInfo?.completed ? 'Otorgado ✅' : 'No completado'}
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Database Status */}
+                <div className="flex items-center space-x-3">
+                  {currentUserInDB ? (
+                    <div className="p-2 rounded-full bg-green-100">
+                      <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  ) : (
+                    <div className="p-2 rounded-full bg-red-100">
+                      <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm text-[var(--app-foreground-muted)]">Registro en Base de Datos</p>
+                    <p className="text-xs font-medium">
+                      {currentUserInDB ? 'Registrado ✅' : 'No registrado'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* NFT Token ID Display */}
+              {studentInfo?.completed && currentUserInDB?.nftTokenId && (
+                <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium text-green-800">Tu NFT de Certificación</h3>
+                      <p className="text-sm text-green-600">
+                        Token ID: <span className="font-mono">{currentUserInDB.nftTokenId}</span>
+                      </p>
+                    </div>
+                    <a
+                      href={`https://sepolia.basescan.org/tx/${currentUserInDB.nftTokenId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 transition-colors"
+                    >
+                      Ver en Explorer
+                    </a>
+                  </div>
+                </div>
+              )}
+              
+              {/* Mint NFT CTA */}
+              {studentInfo?.completed && !currentUserInDB && (
+                <div className="mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium text-yellow-800">¡NFT Disponible!</h3>
+                      <p className="text-sm text-yellow-600">
+                        Ya completaste el bootcamp. Puedes acuñar tu NFT de certificación.
+                      </p>
+                    </div>
+                    <a
+                      href="/verano"
+                      className="px-4 py-2 rounded-lg font-medium bg-yellow-600 text-white hover:bg-yellow-700 transition-colors"
+                    >
+                      Ir a Acuñar NFT
+                    </a>
+                  </div>
+                </div>
+              )}
+              
+              {/* Registration CTA */}
+              {needsRegistration && (
+                <div className="mt-6 p-4 bg-[var(--app-accent-light)] rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium text-[var(--app-accent)]">¡Completa tu registro!</h3>
+                      <p className="text-sm text-[var(--app-accent)] opacity-80">
+                        Tienes un NFT pero no estás en nuestra base de datos.
+                      </p>
+                    </div>
+                    <button
+                      onClick={handleRegistration}
+                      disabled={isRegistering}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                        isRegistering
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'bg-[var(--app-accent)] text-white hover:bg-[var(--app-accent-hover)]'
+                      }`}
+                    >
+                      {isRegistering ? 'Registrando...' : 'Registrarme Ahora'}
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Registration Message */}
+              {registrationMessage && (
+                <div className={`mt-4 p-4 rounded-lg ${
+                  registrationMessage.type === 'success' 
+                    ? 'bg-green-50 border border-green-200' 
+                    : 'bg-red-50 border border-red-200'
+                }`}>
+                  <p className={`text-sm ${
+                    registrationMessage.type === 'success' ? 'text-green-800' : 'text-red-800'
+                  }`}>
+                    {registrationMessage.text}
+                  </p>
+                </div>
+              )}
+              
+              {/* Sign Up CTA for Non-Participants */}
+              {isConnected && !studentInfo?.signedUp && (
+                <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium text-blue-800">¿Quieres participar?</h3>
+                      <p className="text-sm text-blue-600">
+                        Regístrate en el bootcamp Proof of Verano y obtén tu certificación NFT.
+                      </p>
+                    </div>
+                    <a
+                      href="/verano"
+                      className="px-4 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                    >
+                      Inscribirme Ahora
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
