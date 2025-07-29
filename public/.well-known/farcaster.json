@@ -1,0 +1,25 @@
+{
+  "frame": {
+    "name": "kiwik",
+    "version": "1",
+    "iconUrl": "https://kiwik-ai.vercel.app/icon.png",
+    "homeUrl": "https://kiwik-ai.vercel.app",
+    "imageUrl": "https://kiwik-ai.vercel.app/image.png",
+    "buttonTitle": "Iniciar",
+    "splashImageUrl": "https://kiwik-ai.vercel.app/hero.png",
+    "splashBackgroundColor": "#000000",
+    "webhookUrl": "https://kiwik-ai.vercel.app/api/webhook",
+    "subtitle": "talent launchpad",
+    "description": "talent launchpad",
+    "primaryCategory": "social",
+    "screenshotUrls": ["https://kiwik-ai.vercel.app/screenshot.png"],
+    "heroImageUrl": "https://kiwik-ai.vercel.app/image.png",
+    "tagline": "Incubadora de talento",
+    "ogTitle": "kiwik - Incubadora de talento"
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEwNjg1LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4NDRmNGEyM0U4NDEwNDkxMmFDNDhkMUJhRTg2NGQwYWVmRTRkREQ0QSJ9",
+    "payload": "eyJkb21haW4iOiJraXdpay1haS52ZXJjZWwuYXBwIn0",
+    "signature": "MHg3NzA1MzUxOGUxNzVhZjYxMzEyZjRhNDdiZGU3YWRmNmFhZmE4NGE2YjI5ZDEyOGI5YjAyZmY5ZjBiODIwYTgwNjAyZWNhNWQ0MTA1ZjBjM2NlZWI4ZjBiZWZjZTM3ZGVjZjlkYTlmODUwOTQxNzVhZDY4OGVhM2Y2MzJiNzE0MDFi"
+  }
+}
