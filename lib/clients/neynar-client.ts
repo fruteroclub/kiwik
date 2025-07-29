@@ -109,7 +109,7 @@ class NeynarClient {
     }
 
     try {
-      const response = await this.client.fetchBulkUsers([fid]);
+      const response = await this.client.fetchBulkUsers({ fids: [fid] });
       const users = response.users as NeynarUser[];
       
       if (!users || users.length === 0) {
@@ -135,7 +135,7 @@ class NeynarClient {
     }
 
     try {
-      const response = await this.client.fetchBulkUsersByEthereumAddress([address]);
+      const response = await this.client.fetchBulkUsersByEthOrSolAddress({ addresses: [address] });
       const addressData = response[address.toLowerCase()];
       
       if (!addressData || addressData.length === 0) {

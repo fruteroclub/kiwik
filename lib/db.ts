@@ -41,7 +41,7 @@ export const userService = {
     followerCount?: number
     followingCount?: number
     powerBadge?: boolean
-    verifiedAddresses?: any
+    verifiedAddresses?: Prisma.InputJsonValue
     nftTokenId?: string
     bootcampCompleted?: boolean
     completionDate?: Date
@@ -69,7 +69,7 @@ export const userService = {
     followerCount: number
     followingCount: number
     powerBadge: boolean
-    verifiedAddresses: any
+    verifiedAddresses: Prisma.InputJsonValue
     nftTokenId: string
     bootcampCompleted: boolean
     completionDate: Date
@@ -89,7 +89,7 @@ export const userService = {
     followerCount?: number
     followingCount?: number
     powerBadge?: boolean
-    verifiedAddresses?: any
+    verifiedAddresses?: Prisma.InputJsonValue
   }) {
     return prisma.user.update({
       where: { id },

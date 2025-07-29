@@ -3,10 +3,10 @@ import { userService } from '@/lib/db';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { identifier: string } }
+  { params }: { params: Promise<{ identifier: string }> }
 ) {
   try {
-    const { identifier } = params;
+    const { identifier } = await params;
     
     if (!identifier) {
       return NextResponse.json(
@@ -85,10 +85,10 @@ export async function GET(
 // Update user profile (protected - would need auth in production)
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { identifier: string } }
+  { params }: { params: Promise<{ identifier: string }> }
 ) {
   try {
-    const { identifier } = params;
+    const { identifier } = await params;
     const body = await req.json();
 
     // In production, verify the user has permission to update this profile
@@ -121,7 +121,7 @@ export async function PATCH(
       'email'
     ];
 
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     for (const field of allowedFields) {
       if (body[field] !== undefined) {
         updateData[field] = body[field];
