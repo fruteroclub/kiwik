@@ -13,7 +13,7 @@ interface MiniKitUser {
 
 interface FrameContext {
   user?: MiniKitUser;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface NFTAwardContext {
@@ -42,7 +42,7 @@ interface UserRegistrationData {
   followerCount?: number;
   followingCount?: number;
   powerBadge?: boolean;
-  verifiedAddresses?: any;
+  verifiedAddresses?: { eth?: string[]; sol?: string[] };
 }
 
 export class UserRegistrationService {

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { syncUserWithContract } from '@/scripts/validate-nft-registration';
 
 // API endpoint to sync a specific user with the contract
 export async function POST(req: NextRequest) {
@@ -16,6 +15,8 @@ export async function POST(req: NextRequest) {
 
     console.log('API: Syncing user with contract:', walletAddress);
 
+    // Dynamic import to avoid build-time issues
+    const { syncUserWithContract } = await import('@/scripts/validate-nft-registration');
     const result = await syncUserWithContract(walletAddress);
 
     return NextResponse.json({
@@ -39,16 +40,16 @@ export async function POST(req: NextRequest) {
 }
 
 // API endpoint to validate all users (admin only)
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     // In production, add admin authentication here
     console.log('API: Running full NFT registration validation');
 
-    // Import and run validation function
-    const { default: validateNFTRegistration } = await import('@/scripts/validate-nft-registration');
-    
-    // Run validation (this will log results to console)
-    await validateNFTRegistration();
+    // Conditionally import to avoid build-time issues
+    if (process.env.NODE_ENV === 'development') {
+      const { default: validateNFTRegistration } = await import('@/scripts/validate-nft-registration');
+      await validateNFTRegistration();
+    }
 
     return NextResponse.json({
       success: true,

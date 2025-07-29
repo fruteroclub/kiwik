@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Address } from 'viem';
 import { useAccount } from 'wagmi';
 import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
 
@@ -125,7 +124,7 @@ export default function BootcampDashboard() {
           text: result.message || 'Error al registrar. Por favor intenta de nuevo.'
         });
       }
-    } catch (error) {
+    } catch {
       setRegistrationMessage({
         type: 'error',
         text: 'Error de conexión. Por favor intenta de nuevo.'

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { userService } from '@/lib/db';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     console.log('API: Fetching all registered users');
 
