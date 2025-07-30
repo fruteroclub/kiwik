@@ -16,25 +16,35 @@ export async function generateMetadata(): Promise<Metadata> {
   const URL = process.env.NEXT_PUBLIC_URL || "https://kiwik-ai.vercel.app";
   const PROJECT_NAME = process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "kiwik";
   
+  // Mini App embed metadata for social sharing
+  const miniAppEmbed = {
+    version: "1",
+    imageUrl: process.env.NEXT_PUBLIC_APP_HERO_IMAGE || `${URL}/hero.png`,
+    button: {
+      title: `Launch ${PROJECT_NAME}`,
+      action: {
+        type: "launch_frame",
+        name: PROJECT_NAME,
+        url: URL,
+        splashImageUrl: process.env.NEXT_PUBLIC_SPLASH_IMAGE || `${URL}/hero.png`,
+        splashBackgroundColor:
+          process.env.NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR || "#000000",
+      },
+    },
+  };
+  
   return {
     title: PROJECT_NAME,
     description:
       "kiwik - Incubadora de talento Web3 y MiniKit app para Base blockchain",
     other: {
+      // Mini App embed metadata (required for embed validation)
+      "fc:miniapp": JSON.stringify(miniAppEmbed),
+      // Frame metadata for backward compatibility
       "fc:frame": JSON.stringify({
         version: "next",
-        imageUrl: process.env.NEXT_PUBLIC_APP_HERO_IMAGE || `${URL}/hero.png`,
-        button: {
-          title: `Launch ${PROJECT_NAME}`,
-          action: {
-            type: "launch_frame",
-            name: PROJECT_NAME,
-            url: URL,
-            splashImageUrl: process.env.NEXT_PUBLIC_SPLASH_IMAGE || `${URL}/hero.png`,
-            splashBackgroundColor:
-              process.env.NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR || "#000000",
-          },
-        },
+        imageUrl: miniAppEmbed.imageUrl,
+        button: miniAppEmbed.button,
       }),
     },
   };
