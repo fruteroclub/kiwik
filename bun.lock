@@ -6,7 +6,7 @@
       "dependencies": {
         "@coinbase/onchainkit": "latest",
         "@farcaster/frame-sdk": "^0.0.60",
-        "@neynar/nodejs-sdk": "^3.28.0",
+        "@neynar/nodejs-sdk": "^3.29.0",
         "@prisma/client": "^6.12.0",
         "@supabase/supabase-js": "^2.52.1",
         "@tanstack/react-query": "^5",
@@ -265,7 +265,7 @@
 
     "@next/swc-win32-x64-msvc": ["@next/swc-win32-x64-msvc@15.4.4", "", { "os": "win32", "cpu": "x64" }, "sha512-SE5pYNbn/xZKMy1RE3pAs+4xD32OI4rY6mzJa4XUkp/ItZY+OMjIgilskmErt8ls/fVJ+Ihopi2QIeW6O3TrMw=="],
 
-    "@neynar/nodejs-sdk": ["@neynar/nodejs-sdk@3.28.0", "", { "dependencies": { "@openapitools/openapi-generator-cli": "^2.14.1", "semver": "^7.6.3", "viem": "^2.21.44" } }, "sha512-FfBxjy8q3cNNMJQV6AzLJtBrdm0p76leGyIQXBtOGm6thuX11URQG+nzjMrUDWWZaewvdCRh7twjvaWDncysKQ=="],
+    "@neynar/nodejs-sdk": ["@neynar/nodejs-sdk@3.29.0", "", { "dependencies": { "@openapitools/openapi-generator-cli": "^2.14.1", "semver": "^7.6.3", "viem": "^2.21.44" } }, "sha512-oxVR7RV/7eq7dEpvdelKjihkvqE5TclEuck2TYpp/DFK+oeVwx5GxrYQrOASh8irsgEUXp8TdYYfHZD0jkfCEQ=="],
 
     "@noble/ciphers": ["@noble/ciphers@1.3.0", "", {}, "sha512-2I0gnIVPtfnMw9ee9h1dJG7tp81+8Ob3OJb3Mv37rx5L40/b0i7djjCVvGOVqc9AEIQyvyu1i6ypKdFw8R8gQw=="],
 
