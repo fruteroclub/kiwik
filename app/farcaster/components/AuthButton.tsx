@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export function FarcasterAuthButton() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
+  const [isAuthenticated] = useState(
     typeof window !== 'undefined' && !!localStorage.getItem('farcaster_signer_uuid')
   );
 
