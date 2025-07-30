@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 
+// Remove the interface since we'll use the SDK's Cast type directly
+
 // Initialize Neynar client with proper configuration object
 const client = new NeynarAPIClient({
   apiKey: process.env.NEYNAR_API_KEY || "",
@@ -46,6 +48,40 @@ export async function GET(request: NextRequest) {
     const userDetails = await client.fetchBulkUsers({ fids: [user.fid] });
     const detailedUser = userDetails.users[0];
 
+    // Get user's last 5 casts
+    let userCasts: Array<{
+      hash: string;
+      text: string;
+      timestamp: string;
+      reactions_count: number;
+      recasts_count: number;
+      replies_count: number;
+      embeds: Array<{ url?: string; cast_id?: { fid: number; hash: string } }>;
+      parent_hash?: string;
+    }> = [];
+    
+    try {
+      const castsResponse = await client.fetchCastsForUser({
+        fid: detailedUser.fid,
+        limit: 5,
+        includeReplies: false,
+      });
+
+      userCasts = castsResponse.casts.map((cast) => ({
+        hash: cast.hash,
+        text: cast.text,
+        timestamp: cast.timestamp,
+        reactions_count: cast.reactions?.likes_count || 0,
+        recasts_count: cast.reactions?.recasts_count || 0,
+        replies_count: cast.replies?.count || 0,
+        embeds: cast.embeds || [],
+        parent_hash: cast.parent_hash || undefined,
+      }));
+    } catch (castsError) {
+      console.error("Error fetching casts:", castsError);
+      // Continue without casts if error occurs
+    }
+
     // Format response
     const formattedUser = {
       fid: detailedUser.fid,
@@ -55,6 +91,7 @@ export async function GET(request: NextRequest) {
       follower_count: detailedUser.follower_count,
       following_count: detailedUser.following_count,
       bio: detailedUser.profile?.bio?.text || "",
+      casts: userCasts,
     };
 
     return NextResponse.json(formattedUser);
