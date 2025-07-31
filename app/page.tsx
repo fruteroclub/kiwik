@@ -5,6 +5,7 @@ import { useProofOfVerano } from '@/lib/hooks/useProofOfVerano';
 import { RegistrationForm } from './verano/components/RegistrationForm';
 import { StudentDashboard } from './verano/components/StudentDashboard';
 import { AdminPanel } from './verano/components/AdminPanel';
+import { AddFrameButton } from './components/AddFrameButton';
 import {
   ConnectWallet,
   Wallet,
@@ -39,6 +40,9 @@ export default function VeranoBootcampPage() {
             </div>
             
             <div className="flex items-center gap-2 sm:gap-4">
+              {/* Add Frame Button */}
+              <AddFrameButton variant="compact" />
+              
               {/* Wallet Component */}
               <Wallet className="z-10">
                 <ConnectWallet className="px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base">
@@ -103,6 +107,9 @@ export default function VeranoBootcampPage() {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'info' && (
           <div className="space-y-8">
+            {/* Add Frame Benefits Banner */}
+            <AddFrameButton variant="full" showBenefits={true} />
+            
             {/* Hero Section */}
             <section className="bg-[var(--app-card-bg)] backdrop-blur-md rounded-2xl shadow-lg p-6 sm:p-8 border border-[var(--app-card-border)]">
               <div className="grid md:grid-cols-2 gap-8">
